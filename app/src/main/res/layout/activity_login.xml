@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <!-- Main Logo Image -->
+    <ImageView
+        android:layout_above="@+id/signin_layout"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_title"/>
+
+    <!-- Main LinearLayout-->
+    <LinearLayout
+        android:id="@+id/signin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <!-- Email TextInputLayout-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <!-- Email Edit-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/email_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email">
+            </androidx.appcompat.widget.AppCompatEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password TextInputLayout-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <!-- Password Edit-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/password_edittext"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password">
+            </androidx.appcompat.widget.AppCompatEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Email Sign Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/email_login_btn"
+            android:text="@string/signin_email"
+            android:theme="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="35dp">
+        </androidx.appcompat.widget.AppCompatButton>
+
+        <!-- Facebook Sign Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="@string/signin_facebook"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btn_signin_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp">
+        </androidx.appcompat.widget.AppCompatButton>
+
+        <!-- Google Sign Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="@string/signin_google"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/btn_signin_google"
+            android:theme="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="80dp">
+        </androidx.appcompat.widget.AppCompatButton>
+
+    </LinearLayout>
+
+</RelativeLayout>

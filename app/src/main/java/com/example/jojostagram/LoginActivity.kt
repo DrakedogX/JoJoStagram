@@ -5,14 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    // Firebase Authentication 관리 클래스
+    // Firebase Authentication 관리 클래스 전역 변
     var auth: FirebaseAuth? = null
+
+    // Google Login 관리 클래스 전역 변수
+    var googleSignInClient: GoogleSignInClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +26,9 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance() // 인스턴스 가져오기
 
-        email_login_btn.setOnClickListener{ createAndLoginEmail() }
+        email_login_btn.setOnClickListener{ createAndLoginEmail() } // 이메일 로그인 버튼 리스너
+
+        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken("Key Value").requestEmail().build()
     }
 
     // 이메일 회원가입 및 로그인 메드 (Firebase)

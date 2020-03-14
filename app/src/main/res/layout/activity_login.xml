@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_title"/>
+        android:src="@drawable/logo_title"
+        android:contentDescription="@string/app_name" />
 
     <!-- Main LinearLayout-->
     <LinearLayout
@@ -82,6 +83,7 @@
 
         <!-- Google Sign Button -->
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/google_sign_in_btn"
             android:text="@string/signin_google"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_signin_google"

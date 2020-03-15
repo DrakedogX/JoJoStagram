@@ -71,6 +71,7 @@
 
         <!-- Facebook Sign Button -->
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/facebook_login_btn"
             android:text="@string/signin_facebook"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_signin_facebook"
@@ -83,7 +84,7 @@
 
         <!-- Google Sign Button -->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/google_sign_in_btn"
+            android:id="@+id/google_login_in_btn"
             android:text="@string/signin_google"
             android:textColor="@color/colorWhite"
             android:background="@drawable/btn_signin_google"

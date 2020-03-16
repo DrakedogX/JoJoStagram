@@ -11,7 +11,7 @@ https://github.com/you6878/howlstagram
 
 좋은 내용으로 책을 출간해주신 하울님께 감사드립니다.
 
-![메인 화면](../header.png)
+![메인 화면](/header.png)
 
 ## 개발 환경 설정
 
@@ -29,7 +29,9 @@ Kotlin
 
 Firebase
 
+
 **Android Info**
+
 compileSdkVersion 28
 
 buildToolsVersion '28.0.3'

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navigation.AddPhotoActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_photo_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_title_toolbar"/>
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/add_photo_toolbar_division"
+        android:background="@color/colorDivision"
+        android:layout_below="@id/add_photo_toolbar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp">
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/add_photo_image"
+        android:layout_margin="8dp"
+        android:layout_below="@id/add_photo_toolbar_division"
+        android:layout_width="100dp"
+        android:layout_height="100dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_photo_editText"
+        android:layout_below="@id/add_photo_toolbar_division"
+        android:layout_toRightOf="@id/add_photo_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:gravity="top"
+            android:id="@+id/add_photo_edit_explain"
+            android:hint="@string/hint_image_content"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/add_photo_btn"
+        android:text="@string/upload_image"
+        android:layout_toRightOf="@id/add_photo_image"
+        android:layout_below="@id/add_photo_editText"
+        android:theme="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

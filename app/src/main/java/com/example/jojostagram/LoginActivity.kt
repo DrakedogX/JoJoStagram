@@ -32,8 +32,8 @@ import java.util.*
 
 class LoginActivity : AppCompatActivity() {
 
-    // Firebase Authentication 관리 클래스 전역 변수
-    var auth: FirebaseAuth? = null
+    // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)
+    private var auth: FirebaseAuth? = null
 
     // Google Login 관리 클래스 전역 변수
     var googleSignInClient: GoogleSignInClient? = null

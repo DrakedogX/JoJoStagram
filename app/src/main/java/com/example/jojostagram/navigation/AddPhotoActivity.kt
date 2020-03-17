@@ -7,7 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.jojostagram.R
+import com.example.jojostagram.navigation.model.ContentDTO
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,18 +21,26 @@ class AddPhotoActivity : AppCompatActivity() {
     // 리퀘스트 코드
     var PICK_IMAGE_FROM_ALBUM = 0
 
-    // Firebase 저장소 초기화 전역 변수 선언
+    // 이미지 Uri 전역 변
+    var photoUri: Uri? = null
+
+    // Firebase 저장소 전역 변수
     var storage: FirebaseStorage? = null
 
-    // 이미지 Uri
-    var photoUri: Uri? = null
+    // Firebase Firestore 전역 변수
+    var firestore: FirebaseFirestore? = null
+
+    // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)
+    private var auth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_photo)
 
-        // Firebase 저장소 초기화
+        // 인스턴스 초기화
         storage = FirebaseStorage.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         // 화면 실행시 디바이스 앨범 오픈
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -67,12 +80,71 @@ class AddPhotoActivity : AppCompatActivity() {
         // Firebase 저장소상의 폴더명, 파일명 reference set
         val storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-        // 이미지 Firebase 업로드
-        storageRef?.putFile(photoUri!!)?.addOnSuccessListener { taskSnapshot ->
+        // 이미지 Firebase 업로드 promise 메서드 (구글 권장 방식)
+        storageRef?.putFile(photoUri!!)?.continueWithTask {
+            return@continueWithTask storageRef.downloadUrl
+        }?.addOnSuccessListener { uri ->
             //progress_bar.visibility = View.GONE
 
-            Toast.makeText(this, getString(R.string.upload_success), Toast.LENGTH_LONG).show()
+            // 업로드 성공 토스트
+            Toast.makeText(this, getString(R.string.upload_success), Toast.LENGTH_SHORT).show()
+
+            // 시간 생성
+            val contentDTO = ContentDTO()
+
+            // 이미지 주소
+            contentDTO.imageUrl = uri.toString()
+            // 유저의 UID
+            contentDTO.uid = auth?.currentUser?.uid
+            // 게시물의 설명
+            contentDTO.explain = add_photo_edit_explain.text.toString()
+            // 유저의 이메일
+            contentDTO.userId = auth?.currentUser?.email
+            // 게시물 업로드 시간
+            contentDTO.timestamp = System.currentTimeMillis()
+
+            // 게시물 데이터를 DB에 생성
+            firestore?.collection("images")?.document()?.set(contentDTO)
+
+            // 액티비티 결과 값 OK set
+            setResult(Activity.RESULT_OK)
+
+            //엑티비티 종료
+            finish()
         }
+
+        // 이미지 Firebase 업로드 callback 메서드 (구글 권장 X)
+        /*storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                //progress_bar.visibility = View.GONE
+
+                // 업로드 성공 토스트
+                Toast.makeText(this, getString(R.string.upload_success), Toast.LENGTH_SHORT).show()
+
+                // 시간 생성
+                val contentDTO = ContentDTO()
+
+                // 이미지 주소
+                contentDTO.imageUrl = uri.toString()
+                // 유저의 UID
+                contentDTO.uid = auth?.currentUser?.uid
+                // 게시물의 설명
+                contentDTO.explain = add_photo_edit_explain.text.toString()
+                // 유저의 이메일
+                contentDTO.userId = auth?.currentUser?.email
+                // 게시물 업로드 시간
+                contentDTO.timestamp = System.currentTimeMillis()
+
+                // 게시물 데이터를 DB에 생성
+                firestore?.collection("images")?.document()?.set(contentDTO)
+
+                // 액티비티 결과 값 OK set
+                setResult(Activity.RESULT_OK)
+
+                //엑티비티 종료
+                finish()
+            }
+        }*/
 
     }
 }

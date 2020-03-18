@@ -1,5 +1,6 @@
 package com.example.jojostagram
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -9,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import androidx.multidex.MultiDex
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -30,7 +32,7 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity()  {
 
     // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)
     private var auth: FirebaseAuth? = null
@@ -66,6 +68,11 @@ class LoginActivity : AppCompatActivity() {
         //printHashKey() // 페이스북 로그인 API에 필요한 해쉬 값 추출
 
         facebookCallbackManager = CallbackManager.Factory.create()
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     // 구글 로그인 액티비티 인텐트

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--Toolbar-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <!--Border-->
     <LinearLayout
         android:id="@+id/main_toolbar_division"
         android:background="@color/colorDivision"
@@ -31,6 +33,7 @@
         android:orientation="horizontal">
     </LinearLayout>
 
+    <!--Fragment-->
     <FrameLayout
         android:id="@+id/frame_main_content"
         android:layout_width="match_parent"
@@ -38,6 +41,7 @@
         android:layout_below="@id/main_toolbar_division"
         android:layout_above="@id/nav_division"/>
 
+    <!--Border-->
     <LinearLayout
         android:id="@+id/nav_division"
         android:background="@color/colorDivision"
@@ -46,6 +50,7 @@
         android:layout_above="@id/bottom_navigation"
         android:orientation="horizontal"/>
 
+    <!--BottomNavigation-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

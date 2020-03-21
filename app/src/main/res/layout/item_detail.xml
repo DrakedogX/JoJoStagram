@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_detail_profile_imageview"
+            android:src="@mipmap/ic_launcher"
+            android:layout_margin="7.5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
+        
+        <TextView
+            android:text="User Name"
+            android:id="@+id/item_detail_profile_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_detail_content_imageview"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_detail_favorite_imageview"
+            android:src="@drawable/ic_favorite_border"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_detail_comment_imageview"
+            android:src="@drawable/ic_chat_black"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/item_detail_favorite_count_textview"
+        android:text="Like 0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/item_detail_explain_textview"
+        android:text="Explain Content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

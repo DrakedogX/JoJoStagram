@@ -49,6 +49,7 @@ class DetailViewFragment : Fragment() {
             firestore?.collection("images")
         }
 
+        // 미완성
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }

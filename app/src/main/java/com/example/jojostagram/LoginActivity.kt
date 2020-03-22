@@ -116,6 +116,7 @@ class LoginActivity : AppCompatActivity()  {
             }
     }
 
+    // 액티비티 리절트 결과 값 수신
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // 페이스북에서 승인된 정보를 가지고 옴

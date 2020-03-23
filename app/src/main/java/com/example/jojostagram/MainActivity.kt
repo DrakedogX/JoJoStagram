@@ -22,7 +22,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         // 하단 네비게이션 셀렉트 세팅
         bottom_navigation.setOnNavigationItemSelectedListener(this)
 
+        // 디바이스 스토리지 리드 권한 체크
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+
+        // 메인 액티비티 defalt 화면 설정
+        bottom_navigation.selectedItemId = R.id.action_home
     }
 
     // 하단 네비게이션 아이콘 선택에 따른 프래그먼트 호출

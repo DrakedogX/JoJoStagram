@@ -99,7 +99,7 @@ class DetailViewFragment : Fragment() {
             Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewHolder.item_detail_profile_imageview)
 
             // 콘텐트 이미지
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewHolder.item_detail_comment_imageview)
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewHolder.item_detail_content_imageview)
 
             // 설명 텍스트
             viewHolder.item_detail_explain_textview.text = contentDTOs[position].explain

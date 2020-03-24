@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity()  {
 
         //printHashKey() // 페이스북 로그인 API에 필요한 해쉬 값 추출
 
-        facebookCallbackManager = CallbackManager.Factory.create()
+        facebookCallbackManager = CallbackManager.Factory.create() // 페이스북 콜백 매니저 변수 create
     }
 
     override fun attachBaseContext(base: Context?) {

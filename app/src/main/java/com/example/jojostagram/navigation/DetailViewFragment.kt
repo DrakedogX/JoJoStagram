@@ -1,5 +1,6 @@
 package com.example.jojostagram.navigation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.jojostagram.R
 import com.example.jojostagram.navigation.model.ContentDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment() {
 
-    // Firebase 유저 전역 변수
+    // Firebase 유저 공통 전역 변수
     var user: FirebaseUser? = null
 
     // Firestore 저장소 전역 변수
@@ -35,8 +37,9 @@ class DetailViewFragment : Fragment() {
     var mainView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
 
+        user = FirebaseAuth.getInstance().currentUser
         firestore = FirebaseFirestore.getInstance()
 
         view.detail_fragment_recyclerview.adapter = DetailRecyclerViewAdapter()
@@ -63,7 +66,7 @@ class DetailViewFragment : Fragment() {
                 contentUidList.clear()
 
                 for(snapshot in querySnapshot!!.documents){
-                    var item = snapshot.toObject(ContentDTO::class.java)
+                    val item = snapshot.toObject(ContentDTO::class.java)
 
                     contentDTOs.add(item!!)
                     contentUidList.add(snapshot.id)
@@ -77,7 +80,7 @@ class DetailViewFragment : Fragment() {
         // 앞의 번호는 실행 순서
         // 2.viewType 형태의 아이템 뷰를 위한 뷰홀더 객체 생성
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-             var view = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
+             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
             return CustomViewHolder(view)
         }
 
@@ -89,25 +92,61 @@ class DetailViewFragment : Fragment() {
         }
 
         // 3.데이터를 View Holder에 바인딩 (position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시)
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            var viewHolder = (holder as CustomViewHolder).itemView
+            val viewHolder = (holder as CustomViewHolder).itemView
 
             // 유저 ID 바인딩
-            viewHolder.item_detail_profile_textview.text = contentDTOs!![position].userId
+            viewHolder.item_detail_profile_textview.text = contentDTOs[position].userId
 
             // 유저 프로필 이미지
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewHolder.item_detail_profile_imageview)
+            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewHolder.item_detail_profile_imageview)
 
             // 콘텐트 이미지
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewHolder.item_detail_content_imageview)
+            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewHolder.item_detail_content_imageview)
 
             // 설명 텍스트
             viewHolder.item_detail_explain_textview.text = contentDTOs[position].explain
 
             //좋아요 갯수 설정
-            viewHolder.item_detail_favorite_count_textview.text = "좋아요 " + contentDTOs[position].favoriteCount + "개"
+            viewHolder.item_detail_favorite_count_textview.text = getString(R.string.favorite_head) + contentDTOs[position].favoriteCount + getString(R.string.favorite_ea)
+
+            // 좋아요 버튼 클릭 이벤트
+            viewHolder.item_detail_favorite_imageview.setOnClickListener { favoriteEvent(position) }
+
+            // 좋아요 버튼 이미지 클릭시 change 설정
+            if (contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)) {
+                viewHolder.item_detail_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+            } else {
+                viewHolder.item_detail_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+
 
         }
 
+        // 좋아요 버튼 이벤트
+        private fun favoriteEvent(position : Int){
+            // Firestore 선택한 이미지 uid
+            val tsDoc = firestore?.collection("images")?.document(contentUidList[position])
+
+            // Firestore Transaction Run
+            firestore?.runTransaction { transaction ->
+                val contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java) // ContentDTO Transaction Get
+
+                // 좋아요를 터치 했을때 현재 좋아요 상태
+                /*if (contentDTO!!.favorites.containsKey(user)) {
+                    //  좋아요 활성때일때, 좋아요 비활성화
+                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! - 1 // 좋아요 삭제
+                    contentDTO?.favorites.remove(user) // uid 값 제거
+
+                } else {
+                    // 좋아요 비 활성화 일때, 좋아요 활성화
+                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! + 1 // 좋아요 추가
+                    contentDTO?.favorites[user!!] = true // uid true
+                }
+                // transaction set 값 리턴
+                transaction.set(tsDoc, contentDTO)*/
+            }
+        }
     }
 }

@@ -53,6 +53,5 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
-    <string name="favorite_head">좋아요</string>
-    <string name="favorite_ea">개</string>
+    <string name="favorite_ea">좋아요 %1$d 개</string>
 </resources>

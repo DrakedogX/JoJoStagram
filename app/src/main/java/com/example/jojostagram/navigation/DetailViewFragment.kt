@@ -92,7 +92,6 @@ class DetailViewFragment : Fragment() {
         }
 
         // 3.데이터를 View Holder에 바인딩 (position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시)
-        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = (holder as CustomViewHolder).itemView
 
@@ -109,7 +108,7 @@ class DetailViewFragment : Fragment() {
             viewHolder.item_detail_explain_textview.text = contentDTOs[position].explain
 
             //좋아요 갯수 설정
-            viewHolder.item_detail_favorite_count_textview.text = getString(R.string.favorite_head) + contentDTOs[position].favoriteCount + getString(R.string.favorite_ea)
+            viewHolder.item_detail_favorite_count_textview.text = getString(R.string.favorite_ea, contentDTOs[position].favoriteCount)
 
             // 좋아요 버튼 클릭 이벤트
             viewHolder.item_detail_favorite_imageview.setOnClickListener { favoriteEvent(position) }
@@ -133,19 +132,18 @@ class DetailViewFragment : Fragment() {
             firestore?.runTransaction { transaction ->
                 val contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java) // ContentDTO Transaction Get
 
-                // 좋아요를 터치 했을때 현재 좋아요 상태
-                /*if (contentDTO!!.favorites.containsKey(user)) {
+                if (contentDTO!!.favorites.containsKey(user!!.uid)) {
                     //  좋아요 활성때일때, 좋아요 비활성화
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! - 1 // 좋아요 삭제
-                    contentDTO?.favorites.remove(user) // uid 값 제거
+                    contentDTO.favoriteCount = contentDTO.favoriteCount - 1 // 좋아요 삭제
+                    contentDTO.favorites.remove(user!!.uid) // uid 값 제거
 
                 } else {
                     // 좋아요 비 활성화 일때, 좋아요 활성화
-                    contentDTO?.favoriteCount = contentDTO?.favoriteCount!! + 1 // 좋아요 추가
-                    contentDTO?.favorites[user!!] = true // uid true
+                    contentDTO.favoriteCount = contentDTO.favoriteCount + 1 // 좋아요 추가
+                    contentDTO.favorites[user!!.uid] = true // uid true
                 }
                 // transaction set 값 리턴
-                transaction.set(tsDoc, contentDTO)*/
+                transaction.set(tsDoc, contentDTO)
             }
         }
     }

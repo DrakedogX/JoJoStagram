@@ -1,8 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#DD4488"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 유저 정보 레이아웃 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <!-- 계정 프로필 이미지 -->
+        <ImageView
+            android:id="@+id/account_iv_profile"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_account"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/account" />
+
+        <!-- 팔로우 버튼 -->
+        <Button
+            android:id="@+id/account_follow_sign_btn"
+            android:text="@string/follow"
+            android:layout_toEndOf="@id/account_iv_profile"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+
+        <!-- 유저 포스트, 팔로워, 팔로잉 정보 레이아웃 -->
+        <LinearLayout
+            android:layout_above="@id/account_follow_sign_btn"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:baselineAligned="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_toEndOf="@id/account_iv_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- 포스트 갯수 레이아웃 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/post" />
+
+                <TextView
+                    android:id="@+id/account_tv_post_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/count_0"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 팔로워 갯수 레이아웃 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/follower" />
+                <TextView
+                    android:id="@+id/account_tv_follower_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/count_0"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 팔로잉 갯수 레이아웃 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:text="@string/following" />
+                <TextView
+                    android:id="@+id/account_tv_following_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/count_0"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- 유저 포스트 리사이클러뷰 -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/account_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -5,18 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 게시글 레이아웃 -->
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
+        <!-- 게시글 유저 프로필 사진 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_detail_profile_imageview"
             android:src="@mipmap/ic_launcher"
             android:layout_margin="7.5dp"
             android:layout_width="35dp"
             android:layout_height="35dp"/>
-        
+
+        <!-- 게시글 유저 명 -->
         <TextView
             android:text="User Name"
             android:id="@+id/item_detail_profile_textview"
@@ -24,37 +27,43 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <!-- 게시글 이미지 -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_detail_content_imageview"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="250dp"/>
 
+    <!-- 게시글 좋아요, 댓글 -->
     <LinearLayout
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
+        <!-- 게시글 좋아요 버튼 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_detail_favorite_imageview"
             android:src="@drawable/ic_favorite_border"
             android:layout_width="35dp"
             android:layout_height="35dp"/>
 
+        <!-- 게시글 댓글 버튼 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_detail_comment_imageview"
             android:src="@drawable/ic_chat_black"
             android:layout_width="35dp"
             android:layout_height="35dp"/>
     </LinearLayout>
-    
+
+    <!-- 게시글 좋아요 갯수 -->
     <TextView
         android:id="@+id/item_detail_favorite_count_textview"
         android:text="Like 0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <!-- 게시글 내용 -->
     <TextView
         android:id="@+id/item_detail_explain_textview"
         android:text="Explain Content"

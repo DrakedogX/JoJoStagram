@@ -18,6 +18,7 @@ import com.squareup.okhttp.OkHttpClient
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
+// 디테일 화면
 class DetailViewFragment : Fragment() {
 
     // Firebase 유저 공통 전역 변수

@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+// 이미지 업로드 화면
 class AddPhotoActivity : AppCompatActivity() {
     // 리퀘스트 코드
     private val pickImageFromAlbum = 0

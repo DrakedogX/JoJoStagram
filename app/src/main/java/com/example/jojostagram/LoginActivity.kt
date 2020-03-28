@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
+// 로그인 화면
 class LoginActivity : AppCompatActivity()  {
 
     // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)

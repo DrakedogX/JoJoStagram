@@ -34,13 +34,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         when (p0.itemId){
             // 메인 화면
             R.id.action_home ->{
-                var detailViewFragment = DetailViewFragment()
+                val detailViewFragment = DetailViewFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, detailViewFragment).commit()
                 return true
             }
             // 검색 화면
             R.id.action_search ->{
-                var gridFragment = GridFragment()
+                val gridFragment = GridFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, gridFragment).commit()
                 return true
             }
@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             // 알람 화면
             R.id.action_favorite_alarm ->{
-                var alarmFragment = AlarmFragment()
+                val alarmFragment = AlarmFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, alarmFragment).commit()
                 return true
             }
             // 계정 화면
             R.id.action_account ->{
-                var userFragment = UserFragment()
+                val userFragment = UserFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, userFragment).commit()
                 return true
             }

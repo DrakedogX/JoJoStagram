@@ -1,6 +1,5 @@
 package com.example.jojostagram.navigation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,8 +50,8 @@ class DetailViewFragment : Fragment() {
     // 리사이클러뷰 어댑터
     inner class DetailRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        val contentDTOs: ArrayList<ContentDTO> = arrayListOf()
-        val contentUidList: ArrayList<String> = arrayListOf()
+        private val contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+        private val contentUidList: ArrayList<String> = arrayListOf()
 
         // 생성자
         init{

@@ -2,14 +2,9 @@ package com.example.jojostagram
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.multidex.MultiDex
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -27,10 +22,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
-
 
 class LoginActivity : AppCompatActivity()  {
 
@@ -38,13 +29,13 @@ class LoginActivity : AppCompatActivity()  {
     private var auth: FirebaseAuth? = null
 
     // Google Login 관리 클래스 전역 변수
-    var googleSignInClient: GoogleSignInClient? = null
+    private var googleSignInClient: GoogleSignInClient? = null
 
     // GoogleLogin 코드 전역 변수
-    val GOOGLE_LOGIN_CODE = 9001 // Intent Request ID
+    private val googleLoginCode = 9001 // Intent Request ID
 
     // Facebook 로그인 처리 결과 관리 클래스 (콜백)
-    var facebookCallbackManager: CallbackManager? = null
+    private var facebookCallbackManager: CallbackManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +50,7 @@ class LoginActivity : AppCompatActivity()  {
         facebook_login_btn.setOnClickListener { facebookLogin() } // 페이스북 로그인 버튼 set
 
         // 구글 로그인 옵션 및 토큰키 설정
-        var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                   .requestIdToken(getString(R.string.default_web_client_id))
                   .requestEmail().build()
 
@@ -76,13 +67,13 @@ class LoginActivity : AppCompatActivity()  {
     }
 
     // 구글 로그인 액티비티 인텐트
-    fun googleLogin (){
-        var signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+    private fun googleLogin (){
+        val signInIntent = googleSignInClient?.signInIntent
+        startActivityForResult(signInIntent, googleLoginCode)
     }
 
     // 페이스북 로그인
-    fun facebookLogin(){
+    private fun facebookLogin(){
         //progress_bar.visibility = View.GONE
         LoginManager.getInstance().logInWithReadPermissions(this, listOf("public_profile", "email"))
         LoginManager.getInstance().registerCallback(facebookCallbackManager, object: FacebookCallback<LoginResult>{
@@ -102,7 +93,7 @@ class LoginActivity : AppCompatActivity()  {
     }
     // Facebook 인증 토큰을 Firebase로 넘겨주는 function
     fun handleFacebookAccessToken(token : AccessToken){
-        var credential = FacebookAuthProvider.getCredential(token.token)
+        val credential = FacebookAuthProvider.getCredential(token.token)
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
                 //progress_bar.visibility = View.GONE
@@ -123,18 +114,18 @@ class LoginActivity : AppCompatActivity()  {
         facebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
 
         // 구글 로그인에서 승인된 정보를 가지고 오며 성공시 파이어베이스로 전달
-        if (requestCode == GOOGLE_LOGIN_CODE){
-            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+        if (requestCode == googleLoginCode){
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result.isSuccess){
-                var account = result.signInAccount
+                val account = result.signInAccount
                 firebaseAuthWithGoogle(account!!)
             }
         }
     }
 
     // 구글 인증 정보 파이어베이스로 전달
-    fun firebaseAuthWithGoogle (account: GoogleSignInAccount?){
-        var credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+    private fun firebaseAuthWithGoogle (account: GoogleSignInAccount?){
+        val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
                 //progress_bar.visibility = View.GONE
@@ -149,25 +140,29 @@ class LoginActivity : AppCompatActivity()  {
     }
 
     // 이메일 회원가입 및 로그인 function (Firebase)
-    fun createAndLoginEmail(){
+    private fun createAndLoginEmail(){
         auth?.createUserWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener {
             task ->
-                if(task.isSuccessful){
-                    // 계정 생성이 성공 했을 경우 메인 액티비티 호출
-                    moveMainPage(auth?.currentUser)
-                } else if (task.exception?.message.isNullOrEmpty()){
-                    // 계정 생성이 실패 했을 경우
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-                } else {
-                    // 계정 생성도 및 에러도 발생되지 않았을 경우 이메일 로그인
-                    signInEmail()
+                when {
+                    task.isSuccessful -> {
+                        // 계정 생성이 성공 했을 경우 메인 액티비티 호출
+                        moveMainPage(auth?.currentUser)
+                    }
+                    task.exception?.message.isNullOrEmpty() -> {
+                        // 계정 생성이 실패 했을 경우
+                        Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        // 계정 생성도 및 에러도 발생되지 않았을 경우 이메일 로그인
+                        signInEmail()
+                    }
                 }
         }
     }
 
     // 이메일 로그인 function
-    fun signInEmail(){
+    private fun signInEmail(){
         auth?.signInWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener { task ->
                 //progress_bar.visibility = View.GONE
@@ -182,7 +177,7 @@ class LoginActivity : AppCompatActivity()  {
     }
 
     // 메인 액티비티로 이동
-    fun moveMainPage (user: FirebaseUser?){
+    private fun moveMainPage (user: FirebaseUser?){
         if(user != null){
             startActivity(Intent(this, MainActivity::class.java))
         }

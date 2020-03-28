@@ -21,7 +21,7 @@
 
         <!-- 게시글 유저 명 -->
         <TextView
-            android:text="User Name"
+            android:text="@string/user_name"
             android:id="@+id/item_detail_profile_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -37,7 +37,7 @@
     <!-- 게시글 좋아요, 댓글 -->
     <LinearLayout
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
@@ -59,14 +59,14 @@
     <!-- 게시글 좋아요 갯수 -->
     <TextView
         android:id="@+id/item_detail_favorite_count_textview"
-        android:text="Like 0"
+        android:text="@string/like_zero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <!-- 게시글 내용 -->
     <TextView
         android:id="@+id/item_detail_explain_textview"
-        android:text="Explain Content"
+        android:text="@string/Explain_Content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_width="wrap_content"

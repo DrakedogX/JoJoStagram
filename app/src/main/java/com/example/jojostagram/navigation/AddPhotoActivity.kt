@@ -8,27 +8,25 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.jojostagram.R
 import com.example.jojostagram.navigation.model.ContentDTO
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPhotoActivity : AppCompatActivity() {
     // 리퀘스트 코드
-    var PICK_IMAGE_FROM_ALBUM = 0
+    private val pickImageFromAlbum = 0
 
     // 이미지 Uri 전역 변
-    var photoUri: Uri? = null
+    private var photoUri: Uri? = null
 
     // Firebase 저장소 전역 변수
-    var storage: FirebaseStorage? = null
+    private var storage: FirebaseStorage? = null
 
     // Firebase Firestore 전역 변수
-    var firestore: FirebaseFirestore? = null
+    private var firestore: FirebaseFirestore? = null
 
     // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)
     private var auth: FirebaseAuth? = null
@@ -43,9 +41,9 @@ class AddPhotoActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // 화면 실행시 디바이스 앨범 오픈
-        var photoPickerIntent = Intent(Intent.ACTION_PICK)
+        val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
+        startActivityForResult(photoPickerIntent, pickImageFromAlbum)
 
         // 이미지드 파일 업로드 이벤트
         add_photo_btn.setOnClickListener { contentUpload() }
@@ -54,8 +52,8 @@ class AddPhotoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // 리퀘스트 코드가 PICK_IMAGE_FROM_ALBUM 일때
-       if(requestCode == PICK_IMAGE_FROM_ALBUM){
+        // 리퀘스트 코드가 pickImageFromAlbum 일때
+       if(requestCode == pickImageFromAlbum){
            // 이미지 선택을 했을때 액티비티 결과 값 OK
            if(resultCode == Activity.RESULT_OK){
                // 이미지 뷰에 이미지 경로 세팅하여 이미지 표시
@@ -70,12 +68,13 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
     // 이미지 파일 업로드
-    fun contentUpload(){
+    private fun contentUpload(){
         //progress_bar.visibility = View.VISIBLE
 
         // 파일 이름 생성
-        var timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JOJO_IMAGE" + timeStamp + ".png"
+        val currentDateTime = Calendar.getInstance().time
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.KOREA).format(currentDateTime)
+        val imageFileName = "JOJO_IMAGE{$timeStamp}.png"
 
         // Firebase 저장소상의 폴더명, 파일명 reference set
         val storageRef = storage?.reference?.child("images")?.child(imageFileName)

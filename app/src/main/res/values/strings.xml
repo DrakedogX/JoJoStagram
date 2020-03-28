@@ -32,6 +32,9 @@
     <string name="follow_cancel">Follow cancel</string>
     <string name="profile">Profile</string>
     <string name="count_0">0</string>
+    <string name="user_name">User Name</string>
+    <string name="like_zero">Like 0</string>
+    <string name="Explain_Content">Explain Content</string>
 
     <!-- Alarm -->
     <string name="alarm_favorite">Liked the press</string>
@@ -53,5 +56,7 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
-    <string name="favorite_ea">좋아요 %1$d 개</string>
+    <string name="favorite_ea">Like %1$d</string>
+    <string name="toolbar_img">LogoImage</string>
+    <string name="upload_img">UpImage</string>
 </resources>

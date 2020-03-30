@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.jojostagram.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 // 메인 화면
@@ -65,6 +66,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             // 계정 화면
             R.id.action_account ->{
                 val userFragment = UserFragment()
+
+                // UID 전달
+                var bundle = Bundle()
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                bundle.putString("destinationUid", uid)
+                userFragment.arguments = bundle
+
                 supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, userFragment).commit()
                 return true
             }

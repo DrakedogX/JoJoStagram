@@ -106,7 +106,7 @@
     </RelativeLayout>
 
     <!-- 유저 포스트 리사이클러뷰 -->
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/account_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

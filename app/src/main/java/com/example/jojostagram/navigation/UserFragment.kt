@@ -1,5 +1,6 @@
 package com.example.jojostagram.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.jojostagram.LoginActivity
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import com.example.jojostagram.R
 import com.example.jojostagram.navigation.model.ContentDTO
@@ -40,6 +42,27 @@ class UserFragment : Fragment() {
         // Firebase 초기화
         auth = FirebaseAuth.getInstance()
         fireStore = FirebaseFirestore.getInstance()
+
+        // UID 비교를 위해 uid 초기화
+        currentUserUid = auth?.currentUser?.uid
+
+        // UID 비교 [ 현재 유저 정보 페이지 기준, 해당 유저 페이지가 앱에 로그인된 계정인지 다른 사람의 계정인지 비교하여 페이지 호출 ]
+        if (uid == currentUserUid) {
+            // 현재 앱에 로그인된 나의 페이지
+            fragmentView?.account_follow_sign_btn?.text = getString(R.string.signout)
+
+            // 로그아웃
+            fragmentView?.account_follow_sign_btn?.setOnClickListener {
+                activity?.finish()
+                startActivity(Intent(activity, LoginActivity::class.java))
+                auth?.signOut()
+            }
+
+        } else {
+            // 다른 유저의 페이지
+            fragmentView?.account_follow_sign_btn?.text = getString(R.string.follow)
+
+        }
 
         // 리사이클러뷰 어댑터 및 레이아웃 매니저 setting(그리드 레이아웃, 3칸씩 표시)
         fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()

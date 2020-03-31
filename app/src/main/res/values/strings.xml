@@ -52,6 +52,7 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
+    <string name="user_id">User ID</string>
 
     <!-- etc -->
     <item name="visible" type="id" />

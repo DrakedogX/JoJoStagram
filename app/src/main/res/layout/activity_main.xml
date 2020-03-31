@@ -15,12 +15,32 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
+                android:id="@+id/main_toolbar_back_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="22dp"
+                android:src="@drawable/ic_arrow_back"/>
+
+            <TextView
+                android:id="@+id/main_toolbar_username"
+                android:text="@string/user_id"
+                android:textSize="16sp"
+                android:textColor="@color/colorNavIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/main_toolbar_back_btn"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/toolbar_back_btn_title_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/logo_title_toolbar"
-                android:contentDescription="@string/toolbar_img">
-            </ImageView>
+                android:contentDescription="@string/toolbar_img"/>
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 

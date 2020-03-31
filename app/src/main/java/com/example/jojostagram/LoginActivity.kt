@@ -62,6 +62,13 @@ class LoginActivity : AppCompatActivity()  {
         facebookCallbackManager = CallbackManager.Factory.create() // 페이스북 콜백 매니저 변수 create
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        moveMainPage(auth?.currentUser)
+    }
+
+    // 멀티덱스 세팅
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -181,6 +188,7 @@ class LoginActivity : AppCompatActivity()  {
     private fun moveMainPage (user: FirebaseUser?){
         if(user != null){
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 

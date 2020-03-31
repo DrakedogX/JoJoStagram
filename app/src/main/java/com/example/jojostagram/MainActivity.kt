@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     // 하단 네비게이션 아이콘 선택에 따른 프래그먼트 호출
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        setToolbarDefalt()
         when (p0.itemId){
             // 메인 화면
             R.id.action_home ->{
@@ -68,8 +70,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 val userFragment = UserFragment()
 
                 // UID 전달
-                var bundle = Bundle()
-                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                val bundle = Bundle()
+                val uid = FirebaseAuth.getInstance().currentUser?.uid
                 bundle.putString("destinationUid", uid)
                 userFragment.arguments = bundle
 
@@ -78,5 +80,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         return false
+    }
+
+    // 툴바 상태 변경 메서드
+    fun setToolbarDefalt() {
+         main_toolbar_username.visibility = View.GONE
+        main_toolbar_back_btn.visibility = View.GONE
+        main_toolbar_title_img.visibility = View.GONE
     }
 }

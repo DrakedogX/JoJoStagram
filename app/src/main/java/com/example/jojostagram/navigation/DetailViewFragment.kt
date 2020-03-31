@@ -15,7 +15,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.squareup.okhttp.OkHttpClient
+import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.fragment_detail.view.detail_fragment_recyclerview
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 // 디테일 화면
@@ -65,7 +67,10 @@ class DetailViewFragment : Fragment() {
                 contentDTOs.clear()
                 contentUidList.clear()
 
-                for(snapshot in querySnapshot!!.documents){
+                // 쿼리스냅샷 널 처리
+                if (querySnapshot == null) return@addSnapshotListener
+
+                for(snapshot in querySnapshot.documents){
                     val item = snapshot.toObject(ContentDTO::class.java)
 
                     contentDTOs.add(item!!)
@@ -120,7 +125,19 @@ class DetailViewFragment : Fragment() {
                 viewHolder.item_detail_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
             }
 
+            // 프로필 이미지 클릭시 상대방 유저 정보 페이지로 이동
+            viewHolder.item_detail_profile_imageview.setOnClickListener {
+                val fragment = UserFragment()
+                val bundle = Bundle()
 
+                bundle.putString("destinationUid", contentDTOs[position].uid)
+                bundle.putString("userId", contentDTOs[position].userId)
+
+                fragment.arguments = bundle
+                activity!!.supportFragmentManager.beginTransaction()
+                    .replace(R.id.frame_main_content, fragment)
+                    .commit()
+            }
         }
 
         // 좋아요 버튼 이벤트

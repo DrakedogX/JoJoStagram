@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.jojostagram.LoginActivity
+import com.example.jojostagram.MainActivity
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import com.example.jojostagram.R
 import com.example.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.*
 
 // 유저 화면
 class UserFragment : Fragment() {
@@ -47,7 +49,7 @@ class UserFragment : Fragment() {
         currentUserUid = auth?.currentUser?.uid
 
         // UID 비교 [ 현재 유저 정보 페이지 기준, 해당 유저 페이지가 앱에 로그인된 계정인지 다른 사람의 계정인지 비교하여 페이지 호출 ]
-        if (uid == currentUserUid) {
+        if (uid != null && uid == currentUserUid) {
             // 현재 앱에 로그인된 나의 페이지
             fragmentView?.account_follow_sign_btn?.text = getString(R.string.signout)
 
@@ -62,6 +64,18 @@ class UserFragment : Fragment() {
             // 다른 유저의 페이지
             fragmentView?.account_follow_sign_btn?.text = getString(R.string.follow)
 
+            val mainActivity = (activity as MainActivity)
+
+            mainActivity.main_toolbar_username.text = arguments!!.getString("userId")
+
+            mainActivity.main_toolbar_back_btn.setOnClickListener {
+                mainActivity.bottom_navigation.selectedItemId = R.id.action_home
+            }
+
+            // 툴바 요소들 안보이게 처리
+            mainActivity.main_toolbar_title_img.visibility = View.GONE
+            mainActivity.main_toolbar_username.visibility = View.VISIBLE
+            mainActivity.main_toolbar_back_btn.visibility = View.VISIBLE
         }
 
         // 리사이클러뷰 어댑터 및 레이아웃 매니저 setting(그리드 레이아웃, 3칸씩 표시)

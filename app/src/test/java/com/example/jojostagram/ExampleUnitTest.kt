@@ -1,4 +1,4 @@
-package com.example.jojostagram
+package com.joel.jojostagram
 
 import org.junit.Test
 

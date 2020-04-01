@@ -1,4 +1,4 @@
-package com.example.jojostagram.navigation
+package com.joel.jojostagram.navigation
 
 import android.app.Activity
 import android.content.Intent
@@ -6,8 +6,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.jojostagram.R
-import com.example.jojostagram.navigation.model.ContentDTO
+import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -17,8 +17,10 @@ import java.util.*
 
 // 이미지 업로드 화면
 class AddPhotoActivity : AppCompatActivity() {
-    // 리퀘스트 코드
-    private val pickImageFromAlbum = 0
+    // PhotoPicker startActivityForResult 상수 값
+    companion object {
+        private const val PICK_PROFILE_FROM_ALBUM = 0 // Intent Request ID
+    }
 
     // 이미지 Uri 전역 변
     private var photoUri: Uri? = null
@@ -44,7 +46,7 @@ class AddPhotoActivity : AppCompatActivity() {
         // 화면 실행시 디바이스 앨범 오픈
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent, pickImageFromAlbum)
+        startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
 
         // 이미지드 파일 업로드 이벤트
         add_photo_btn.setOnClickListener { contentUpload() }
@@ -53,8 +55,8 @@ class AddPhotoActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // 리퀘스트 코드가 pickImageFromAlbum 일때
-       if(requestCode == pickImageFromAlbum){
+        // 리퀘스트 코드가 PICK_PROFILE_FROM_ALBUM 일때
+       if(requestCode == PICK_PROFILE_FROM_ALBUM){
            // 이미지 선택을 했을때 액티비티 결과 값 OK
            if(resultCode == Activity.RESULT_OK){
                // 이미지 뷰에 이미지 경로 세팅하여 이미지 표시

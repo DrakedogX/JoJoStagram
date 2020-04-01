@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation.AddPhotoActivity">
+    tools:context="com.joel.jojostagram.navigation.AddPhotoActivity">
 
     <!--Toolbar-->
     <androidx.appcompat.widget.Toolbar

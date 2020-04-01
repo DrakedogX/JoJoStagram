@@ -1,4 +1,4 @@
-package com.example.jojostagram
+package com.joel.jojostagram
 
 import android.Manifest
 import android.content.Intent
@@ -10,9 +10,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.jojostagram.navigation.*
+import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.joel.jojostagram.navigation.AddPhotoActivity
+import com.joel.jojostagram.navigation.AlarmFragment
+import com.joel.jojostagram.navigation.GridFragment
+import com.joel.jojostagram.navigation.UserFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 // 메인 화면

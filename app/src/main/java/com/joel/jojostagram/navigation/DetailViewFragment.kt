@@ -1,4 +1,4 @@
-package com.example.jojostagram.navigation
+package com.joel.jojostagram.navigation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.jojostagram.R
-import com.example.jojostagram.navigation.model.ContentDTO
+import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.joel.jojostagram.navigation.UserFragment
 import com.squareup.okhttp.OkHttpClient
-import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.detail_fragment_recyclerview
 import kotlinx.android.synthetic.main.item_detail.view.*
 

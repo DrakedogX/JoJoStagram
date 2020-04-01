@@ -1,4 +1,4 @@
-package com.example.jojostagram
+package com.joel.jojostagram
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.multidex.MultiDex
+import com.joel.jojostagram.R
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -26,14 +27,16 @@ import kotlinx.android.synthetic.main.activity_login.*
 // 로그인 화면
 class LoginActivity : AppCompatActivity()  {
 
+    // GoogleLogin startActivityForResult 상수 값
+    companion object {
+        private const val GOOGLE_LOGIN_CODE = 9001 // Intent Request ID
+    }
+
     // Firebase Authentication 전역 변수 (인증 정보 관련 private 정의)
     private var auth: FirebaseAuth? = null
 
     // Google Login 관리 클래스 전역 변수
     private var googleSignInClient: GoogleSignInClient? = null
-
-    // GoogleLogin 코드 전역 변수
-    private val googleLoginCode = 9001 // Intent Request ID
 
     // Facebook 로그인 처리 결과 관리 클래스 (콜백)
     private var facebookCallbackManager: CallbackManager? = null
@@ -77,7 +80,7 @@ class LoginActivity : AppCompatActivity()  {
     // 구글 로그인 액티비티 인텐트
     private fun googleLogin (){
         val signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, googleLoginCode)
+        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
     }
 
     // 페이스북 로그인
@@ -122,7 +125,7 @@ class LoginActivity : AppCompatActivity()  {
         facebookCallbackManager?.onActivityResult(requestCode, resultCode, data)
 
         // 구글 로그인에서 승인된 정보를 가지고 오며 성공시 파이어베이스로 전달
-        if (requestCode == googleLoginCode){
+        if (requestCode == GOOGLE_LOGIN_CODE){
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             if (result.isSuccess){
                 val account = result.signInAccount

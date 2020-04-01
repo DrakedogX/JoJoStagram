@@ -1,11 +1,11 @@
-package com.example.jojostagram.navigation
+package com.joel.jojostagram.navigation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.jojostagram.R
+import com.joel.jojostagram.R
 
 // 알람 화면
 class AlarmFragment : Fragment() {

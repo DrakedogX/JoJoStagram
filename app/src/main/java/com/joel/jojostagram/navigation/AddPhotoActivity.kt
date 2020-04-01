@@ -19,7 +19,7 @@ import java.util.*
 class AddPhotoActivity : AppCompatActivity() {
     // PhotoPicker startActivityForResult 상수 값
     companion object {
-        private const val PICK_PROFILE_FROM_ALBUM = 0 // Intent Request ID
+        const val PICK_PROFILE_FROM_ALBUM = 0 // Intent Request ID
     }
 
     // 이미지 Uri 전역 변

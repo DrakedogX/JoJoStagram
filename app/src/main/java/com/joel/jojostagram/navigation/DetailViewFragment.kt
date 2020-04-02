@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.joel.jojostagram.R
 import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -103,7 +104,16 @@ class DetailViewFragment : Fragment() {
             viewHolder.item_detail_profile_textview.text = contentDTOs[position].userId
 
             // 유저 프로필 이미지
-            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewHolder.item_detail_profile_imageview)
+            firestore?.collection("profileImages")?.document(contentDTOs[position].uid!!)
+                ?.get()?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val url = task.result?.get("image")
+
+                        Glide.with(holder.itemView.context)
+                            .load(url)
+                            .apply(RequestOptions().circleCrop()).into(viewHolder.item_detail_profile_imageview)
+                    }
+                }
 
             // 콘텐트 이미지
             Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewHolder.item_detail_content_imageview)
@@ -149,7 +159,7 @@ class DetailViewFragment : Fragment() {
                 val contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java) // ContentDTO Transaction Get
 
                 if (contentDTO!!.favorites.containsKey(user!!.uid)) {
-                    //  좋아요 활성때일때, 좋아요 비활성화
+                    // 좋아요 활성때일때, 좋아요 비활성화
                     contentDTO.favoriteCount = contentDTO.favoriteCount - 1 // 좋아요 삭제
                     contentDTO.favorites.remove(user!!.uid) // uid 값 제거
 

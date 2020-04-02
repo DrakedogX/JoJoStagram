@@ -19,6 +19,7 @@ import com.joel.jojostagram.R
 import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.joel.jojostagram.navigation.model.FollowDTO
 import kotlinx.android.synthetic.main.activity_main.*
 
 // 유저 화면
@@ -81,6 +82,11 @@ class UserFragment : Fragment() {
             mainActivity.main_toolbar_title_img.visibility = View.GONE
             mainActivity.main_toolbar_username.visibility = View.VISIBLE
             mainActivity.main_toolbar_back_btn.visibility = View.VISIBLE
+
+            // 팔로우 버튼 클릭시 팔로우 이벤트 호출
+            fragmentView?.account_follow_sign_btn?.setOnClickListener {
+                requestFollow()
+            }
         }
 
         // 리사이클러뷰 어댑터 및 레이아웃 매니저 setting(그리드 레이아웃, 3칸씩 표시)
@@ -96,6 +102,73 @@ class UserFragment : Fragment() {
         getProfileImage()
 
         return fragmentView
+    }
+
+    // 팔로우 기능 세팅
+    fun requestFollow() {
+        // 팔로잉 세팅
+        val tsDocFollowing = fireStore?.collection("users")?.document(currentUserUid!!)
+        // 트랜잭션 시작
+        fireStore?.runTransaction { transaction ->
+            var followDTO = transaction.get(tsDocFollowing!!).toObject(FollowDTO::class.java)
+
+            // followDTO가 값이 null일때 해당 followDTO 팔로잉 데이터 생성
+            if (followDTO == null) {
+
+                followDTO = FollowDTO()
+                followDTO.followingCount = 1
+                followDTO.followings[uid!!] = true // 나의 계정에 상대방의 uid 세팅
+
+                transaction.set(tsDocFollowing, followDTO)
+                return@runTransaction
+            }
+
+            // 팔로잉 상태 설정
+            if (followDTO.followings.containsKey(uid)) {
+                // 팔로우 한 상태
+                followDTO.followingCount = followDTO.followingCount - 1
+                followDTO.followings.remove(uid)
+            } else {
+                // 팔로우 안한 상태
+                followDTO.followingCount = followDTO.followingCount + 1
+                followDTO.followings[uid!!] = true
+            }
+
+            transaction.set(tsDocFollowing, followDTO)
+            return@runTransaction
+        }
+
+        // 팔로워 세팅
+        val tsDocFollower = fireStore!!.collection("users").document(uid!!)
+        // 트랜잭션 시작
+        fireStore?.runTransaction { transaction ->
+            var followDTO = transaction.get(tsDocFollower).toObject(FollowDTO::class.java)
+
+            // followDTO가 값이 null일때 해당 followDTO 팔로워 데이터 생성
+            if (followDTO == null) {
+
+                followDTO = FollowDTO()
+                followDTO!!.followerCount = 1
+                followDTO!!.followers[currentUserUid!!] = true // 상대방의 계정에 나의 uid 세팅
+
+                transaction.set(tsDocFollower, followDTO!!)
+                return@runTransaction
+            }
+
+            // 팔로워 상태 설정
+            if (followDTO?.followers?.containsKey(currentUserUid!!)!!) {
+                // 상대방의 계정을 팔로우 중인 경우
+                followDTO!!.followerCount = followDTO!!.followerCount - 1
+                followDTO!!.followers.remove(currentUserUid!!)
+            } else {
+                // 상대방의 계정을 팔로우 중이 아닌 경우
+                followDTO!!.followerCount = followDTO!!.followerCount + 1
+                followDTO!!.followers[currentUserUid!!] = true
+            }
+
+            transaction.set(tsDocFollower, followDTO!!)
+            return@runTransaction
+        }
     }
 
     // Firebase 유저 프로필 이미지 세팅

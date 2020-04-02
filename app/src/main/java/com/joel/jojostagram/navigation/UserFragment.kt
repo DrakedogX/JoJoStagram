@@ -1,4 +1,4 @@
-package com.example.jojostagram.navigation
+package com.joel.jojostagram.navigation
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,17 +12,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.jojostagram.LoginActivity
-import com.example.jojostagram.MainActivity
+import com.joel.jojostagram.LoginActivity
+import com.joel.jojostagram.MainActivity
 import kotlinx.android.synthetic.main.fragment_user.view.*
-import com.example.jojostagram.R
-import com.example.jojostagram.navigation.model.ContentDTO
+import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 
 // 유저 화면
 class UserFragment : Fragment() {
+
+    // PhotoPicker startActivityForResult 상수 값
+    companion object {
+        const val PICK_PROFILE_FROM_ALBUM = 10 // Intent Request ID
+    }
 
     // 프래그먼트 뷰 전역 변수
     private var fragmentView: View? = null
@@ -82,13 +87,33 @@ class UserFragment : Fragment() {
         fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
         fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(activity!!, 3)
 
+        fragmentView?.account_iv_profile?.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
+        }
+
+        getProfileImage()
+
         return fragmentView
+    }
+
+    // Firebase 유저 프로필 이미지 세팅
+    private fun getProfileImage() {
+        fireStore?.collection("profileImages")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            if (documentSnapshot == null) return@addSnapshotListener
+
+            if(documentSnapshot.data != null) {
+                val url = documentSnapshot.data!!["image"]
+                Glide.with(activity!!).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.account_iv_profile!!)
+            }
+        }
     }
 
     // 유저 리사이클러뷰 어댑터
     // 로그인한 유저의 업로드한 이미지만 리사이클러뷰에 출력
     inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+        private var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
 
         init {
             contentDTOs = ArrayList()

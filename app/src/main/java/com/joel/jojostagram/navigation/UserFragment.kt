@@ -1,26 +1,33 @@
 package com.joel.jojostagram.navigation
 
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.joel.jojostagram.LoginActivity
-import com.joel.jojostagram.MainActivity
-import kotlinx.android.synthetic.main.fragment_user.view.*
-import com.joel.jojostagram.R
-import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.joel.jojostagram.LoginActivity
+import com.joel.jojostagram.MainActivity
+import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.ContentDTO
 import com.joel.jojostagram.navigation.model.FollowDTO
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_user.view.*
+
 
 // 유저 화면
 class UserFragment : Fragment() {
@@ -100,12 +107,14 @@ class UserFragment : Fragment() {
         }
 
         getProfileImage()
+        getFollowing()
+        getFollower()
 
         return fragmentView
     }
 
     // 팔로우 기능 세팅
-    fun requestFollow() {
+    private fun requestFollow() {
         // 팔로잉 세팅
         val tsDocFollowing = fireStore?.collection("users")?.document(currentUserUid!!)
         // 트랜잭션 시작
@@ -171,6 +180,35 @@ class UserFragment : Fragment() {
         }
     }
 
+    // 실시간 팔로잉 가져오기
+    private fun getFollowing() {
+        fireStore?.collection("users")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            val followDTO = documentSnapshot?.toObject(FollowDTO::class.java) ?: return@addSnapshotListener
+
+            fragmentView!!.account_tv_following_count.text = followDTO.followingCount.toString()
+        }
+    }
+
+    // 실시간 팔로워 가져오기
+    private fun getFollower() {
+        fireStore?.collection("users")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            val followDTO = documentSnapshot?.toObject(FollowDTO::class.java) ?: return@addSnapshotListener
+
+            fragmentView?.account_tv_follower_count?.text = followDTO.followerCount.toString()
+
+            // 팔로우 상태에 따른 버튼 상태 변경
+            if (followDTO.followers.containsKey(currentUserUid)) {
+                fragmentView?.account_follow_sign_btn?.text = getString(R.string.follow_cancel)
+                mySetColorFilter(fragmentView?.account_follow_sign_btn?.background, ContextCompat.getColor(activity!!, R.color.colorLightGray))
+            } else {
+                if (uid != currentUserUid) {
+                    fragmentView?.account_follow_sign_btn?.text = getString(R.string.follow)
+                    fragmentView?.account_follow_sign_btn?.background?.colorFilter = null
+                }
+            }
+        }
+    }
+
     // Firebase 유저 프로필 이미지 세팅
     private fun getProfileImage() {
         fireStore?.collection("profileImages")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
@@ -180,6 +218,15 @@ class UserFragment : Fragment() {
                 val url = documentSnapshot.data!!["image"]
                 Glide.with(activity!!).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.account_iv_profile!!)
             }
+        }
+    }
+
+    // 안드로이드 버전에 따른 setColorFilter 적용
+    private fun mySetColorFilter(drawable: Drawable?, color: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            drawable?.colorFilter = BlendModeColorFilter(color, BlendMode.MULTIPLY)
+        } else {
+            drawable?.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         }
     }
 
@@ -237,6 +284,6 @@ class UserFragment : Fragment() {
         }
 
         // 이미지 레이아웃 리턴 받은 뷰 홀더
-        inner class CustomViewHolder(var imageView: ImageView) : RecyclerView.ViewHolder(imageView) { }
+        inner class CustomViewHolder(var imageView: ImageView) : RecyclerView.ViewHolder(imageView)
     }
 }

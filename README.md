@@ -24,13 +24,13 @@ Firebase
 
 **Android Info**
 
-compileSdkVersion 28
+compileSdkVersion 28 -> 29
 
 buildToolsVersion '28.0.3'
 
 minSdkVersion 19
 
-targetSdkVersion 28
+targetSdkVersion 28 -> 29
 
 ## 정보
 

@@ -14,7 +14,7 @@
         <!-- 게시글 유저 프로필 사진 -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_detail_profile_imageview"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_account"
             android:layout_margin="7.5dp"
             android:layout_width="35dp"
             android:layout_height="35dp"/>

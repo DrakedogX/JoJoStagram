@@ -12,12 +12,13 @@
         android:layout_height="50dp">
 
         <!-- 게시글 유저 프로필 사진 -->
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/item_detail_profile_imageview"
             android:src="@drawable/ic_account"
             android:layout_margin="7.5dp"
             android:layout_width="35dp"
-            android:layout_height="35dp"/>
+            android:layout_height="35dp"
+            android:contentDescription="@string/app_name" />
 
         <!-- 게시글 유저 명 -->
         <TextView

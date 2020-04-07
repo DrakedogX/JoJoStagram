@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.joel.jojostagram.navigation.AddPhotoActivity">
 
-    <!--Toolbar-->
+    <!-- 툴바 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_photo_toolbar"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:contentDescription="@string/toolbar_img"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <!--Border-->
+    <!-- 경계 레이아웃 -->
     <LinearLayout
         android:id="@+id/add_photo_toolbar_division"
         android:background="@color/colorDivision"
@@ -27,7 +27,7 @@
         android:layout_height="1dp">
     </LinearLayout>
 
-    <!--Upload Image Preview-->
+    <!-- 업로드 이미지 프리뷰 -->
     <ImageView
         android:id="@+id/add_photo_image"
         android:layout_margin="8dp"
@@ -36,7 +36,7 @@
         android:layout_height="100dp"
         android:contentDescription="@string/upload_img"/>
 
-    <!--TextInputLayout-->
+    <!-- 글 내용 텍스트 필드 -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_photo_editText"
         android:layout_below="@id/add_photo_toolbar_division"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!--Image Description-->
+        <!-- 글 내용 입력 -->
         <EditText
             android:inputType="textImeMultiLine"
             android:gravity="top"
@@ -55,7 +55,7 @@
             android:autofillHints="no" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--Upload Button-->
+    <!-- 업로드 버튼 -->
     <Button
         android:id="@+id/add_photo_btn"
         android:text="@string/upload_image"

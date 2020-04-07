@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.joel.jojostagram.LoginActivity">
 
-    <!-- Main Logo Image -->
+    <!-- 메인 로고 이미지 -->
     <ImageView
         android:layout_above="@+id/signin_layout"
         android:layout_alignParentTop="true"
@@ -14,7 +14,7 @@
         android:src="@drawable/logo_title"
         android:contentDescription="@string/app_name" />
 
-    <!-- Main LinearLayout-->
+    <!-- 메인 리니어 레이아웃 -->
     <LinearLayout
         android:id="@+id/signin_layout"
         android:layout_width="match_parent"
@@ -22,14 +22,14 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <!-- Email TextInputLayout-->
+        <!-- 이메일 입력 필드 -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <!-- Email Edit-->
+            <!-- 이메일 입력-->
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/email_edittext"
                 android:layout_width="match_parent"
@@ -38,14 +38,14 @@
             </androidx.appcompat.widget.AppCompatEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password TextInputLayout-->
+        <!-- 패스워드 입력 필드 -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <!-- Password Edit-->
+            <!-- 패스워드 입력 -->
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password_edittext"
                 android:inputType="textPassword"
@@ -55,7 +55,7 @@
             </androidx.appcompat.widget.AppCompatEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email Sign Button -->
+        <!-- 이메일 로그인 버튼 -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/email_login_btn"
             android:text="@string/signin_email"
@@ -68,7 +68,7 @@
             android:layout_marginBottom="35dp">
         </androidx.appcompat.widget.AppCompatButton>
 
-        <!-- Facebook Sign Button -->
+        <!-- 페이스북 로그인 버튼 -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/facebook_login_btn"
             android:text="@string/signin_facebook"
@@ -81,7 +81,7 @@
             android:layout_marginBottom="5dp">
         </androidx.appcompat.widget.AppCompatButton>
 
-        <!-- Google Sign Button -->
+        <!-- 구글 로그인 버튼 -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/google_login_in_btn"
             android:text="@string/signin_google"

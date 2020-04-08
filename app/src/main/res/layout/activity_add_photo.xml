@@ -46,9 +46,9 @@
 
         <!-- 글 내용 입력 -->
         <EditText
-            android:inputType="textImeMultiLine"
-            android:gravity="top"
             android:id="@+id/add_photo_edit_explain"
+            android:inputType="textImeMultiLine|textNoSuggestions"
+            android:gravity="top"
             android:hint="@string/hint_image_content"
             android:layout_width="match_parent"
             android:layout_height="100dp"

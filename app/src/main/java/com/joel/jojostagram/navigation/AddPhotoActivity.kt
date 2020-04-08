@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import com.joel.jojostagram.R
 import com.joel.jojostagram.navigation.model.ContentDTO
@@ -48,7 +49,10 @@ class AddPhotoActivity : AppCompatActivity() {
         photoPickerIntent.type = "image/*"
         startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
 
-        // 이미지드 파일 업로드 이벤트
+        // 게시글 내용 텍스트 필드 인풋타입 세팅
+        add_photo_edit_explain.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+
+        // 이미지 파일 업로드 이벤트
         add_photo_btn.setOnClickListener { contentUpload() }
     }
 

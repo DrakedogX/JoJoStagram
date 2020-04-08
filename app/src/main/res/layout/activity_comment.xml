@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navigation.CommentActivity">
+
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/comment_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_title_toolbar" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!--경계 레이아웃-->
+    <LinearLayout
+        android:id="@+id/toolbar_division"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/comment_toolbar"
+        android:background="@color/colorDivision"
+        android:orientation="horizontal" />
+
+    <!-- 댓글 콘텐츠 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comment_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_division"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="8dp" />
+
+    <!-- 댓글 전송 -->
+    <Button
+        android:id="@+id/comment_send_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_recyclerview"
+        android:layout_margin="10dp"
+        android:text="@string/send"
+        android:theme="@style/ButtonStyle"
+        android:layout_alignParentEnd="true" />
+
+    <!-- 댓글 입력 -->
+    <EditText
+        android:id="@+id/comment_message_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/comment_recyclerview"
+        android:layout_margin="10dp"
+        android:layout_toStartOf="@id/comment_send_btn"
+        android:autofillHints="comment_hint"
+        android:inputType="text|textNoSuggestions"
+        tools:ignore="LabelFor" />
+</RelativeLayout>

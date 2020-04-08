@@ -1,5 +1,6 @@
 package com.joel.jojostagram.navigation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,9 +42,12 @@ class DetailViewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
 
+        // 유저 정보
         user = FirebaseAuth.getInstance().currentUser
+        // FirebaseFirestore 정보
         firestore = FirebaseFirestore.getInstance()
 
+        // 리사이클러 뷰 어댑터 연결
         view.detail_fragment_recyclerview.adapter = DetailRecyclerViewAdapter()
         view.detail_fragment_recyclerview.layoutManager = LinearLayoutManager(activity)
 
@@ -52,18 +56,18 @@ class DetailViewFragment : Fragment() {
 
     // 리사이클러뷰 어댑터
     inner class DetailRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+        // 리사이클러 뷰 데이터 변수
         private val contentDTOs: ArrayList<ContentDTO> = arrayListOf()
         private val contentUidList: ArrayList<String> = arrayListOf()
 
-        // 생성자
+        // 리사이클러뷰 초기값 설정
         init{
 
             // Firestore 접근하여 DB 정보 받아옴, 시간순으로
-            // 쿼리스냅샷시 contentDTOs, contentUidList 초기화
             // 쿼리스냅샷 데이터 하나씩 반복문으로 item에 set
             // contentDTOs에 item Add, contentUidList에 snapshot.id Add
             firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+                // contentDTOs, contentUidList 초기화 -> 값 중복 방지
                 contentDTOs.clear()
                 contentUidList.clear()
 
@@ -100,7 +104,7 @@ class DetailViewFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = (holder as CustomViewHolder).itemView
 
-            // 유저 ID 바인딩
+            // 유저 ID
             viewHolder.item_detail_profile_textview.text = contentDTOs[position].userId
 
             // 유저 프로필 이미지
@@ -143,9 +147,14 @@ class DetailViewFragment : Fragment() {
                 bundle.putString("userId", contentDTOs[position].userId)
 
                 fragment.arguments = bundle
-                activity!!.supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame_main_content, fragment)
-                    .commit()
+                activity!!.supportFragmentManager.beginTransaction().replace(R.id.frame_main_content, fragment).commit()
+            }
+
+            // 댓글 버튼 클릭시 댓글 화면 이동
+            viewHolder.item_detail_comment_imageview.setOnClickListener { v ->
+                val intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid", contentUidList[position])
+                startActivity(intent)
             }
         }
 

@@ -43,6 +43,8 @@
 
     <!-- Comment -->
     <string name="send">Send</string>
+    <string name="comment_message">Message</string>
+    <string name="comment_hint">댓글을 입력해주세요.</string>
 
     <!-- Add Photo -->
     <string name="upload_image">Photo Upload</string>

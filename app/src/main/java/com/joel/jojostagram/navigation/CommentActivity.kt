@@ -109,9 +109,14 @@ class CommentActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val url = task.result?.get("image")
 
-                        Glide.with(holder.itemView.context)
-                            .load(url)
-                            .apply(RequestOptions().circleCrop()).into(viewHolder.comment_item_profile_imageview)
+                        // 찾아올 유저 프로필 이미지가 null일 경우 기본 프로필 이미지 세팅
+                        if (url == null) {
+                            viewHolder.comment_item_profile_imageview.setImageResource(R.drawable.ic_account)
+                        } else {
+                            Glide.with(holder.itemView.context)
+                                .load(url)
+                                .apply(RequestOptions().circleCrop()).into(viewHolder.comment_item_profile_imageview)
+                        }
                     }
                 }
         }

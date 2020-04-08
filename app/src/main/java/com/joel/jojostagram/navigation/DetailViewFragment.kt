@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.joel.jojostagram.navigation.UserFragment
 import com.squareup.okhttp.OkHttpClient
 import kotlinx.android.synthetic.main.fragment_detail.view.detail_fragment_recyclerview
 import kotlinx.android.synthetic.main.item_detail.view.*
@@ -113,9 +112,14 @@ class DetailViewFragment : Fragment() {
                     if (task.isSuccessful) {
                         val url = task.result?.get("image")
 
-                        Glide.with(holder.itemView.context)
-                            .load(url)
-                            .apply(RequestOptions().circleCrop()).into(viewHolder.item_detail_profile_imageview)
+                        // 찾아올 유저 프로필 이미지가 null일 경우 기본 프로필 이미지 세팅
+                        if (url == null) {
+                            viewHolder.item_detail_profile_imageview.setImageResource(R.drawable.ic_account)
+                        } else {
+                            Glide.with(holder.itemView.context)
+                                .load(url)
+                                .apply(RequestOptions().circleCrop()).into(viewHolder.item_detail_profile_imageview)
+                        }
                     }
                 }
 

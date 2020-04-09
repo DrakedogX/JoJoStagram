@@ -4,26 +4,21 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.Task
-import com.joel.jojostagram.R
-import com.joel.jojostagram.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.joel.jojostagram.navigation.AddPhotoActivity
-import com.joel.jojostagram.navigation.AlarmFragment
-import com.joel.jojostagram.navigation.GridFragment
-import com.joel.jojostagram.navigation.UserFragment
+import com.joel.jojostagram.navigation.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 // 메인 화면
@@ -41,6 +36,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         // 메인 액티비티 defalt 화면 설정
         bottom_navigation.selectedItemId = R.id.action_home
+
+        // FCM 토큰 생성
+        registerPushToken()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,6 +108,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         return false
+    }
+
+    fun registerPushToken(){
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {task ->
+            val pushToken = task.result?.token
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            val map = mutableMapOf<String,Any>()
+            map["pushToken"] = pushToken!!
+            FirebaseFirestore.getInstance().collection("pushToken").document(uid!!).set(map)
+        }
     }
 
     // 툴바 상태 변경 메서드

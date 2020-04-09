@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.joel.jojostagram.R
-import com.joel.jojostagram.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.joel.jojostagram.R
 import com.joel.jojostagram.navigation.model.AlarmDTO
+import com.joel.jojostagram.navigation.model.ContentDTO
 import com.squareup.okhttp.OkHttpClient
-import kotlinx.android.synthetic.main.fragment_detail.view.detail_fragment_recyclerview
+import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 // 디테일 화면
@@ -62,7 +62,6 @@ class DetailViewFragment : Fragment() {
 
         // 리사이클러뷰 초기값 설정
         init{
-
             // Firestore 접근하여 DB 정보 받아옴, 시간순으로
             // 쿼리스냅샷 데이터 하나씩 반복문으로 item에 set
             // contentDTOs에 item Add, contentUidList에 snapshot.id Add
@@ -104,8 +103,23 @@ class DetailViewFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = (holder as CustomViewHolder).itemView
 
+            // 홀더 프로필 이미지
+            val profileImageView = viewHolder.item_detail_profile_imageview
+            // 홀더 유저 ID
+            val contentProfileTextView = viewHolder.item_detail_profile_textview
+            // 홀더 게시글 이미지
+            val contentImageView = viewHolder.item_detail_content_imageview
+            // 홀더 게시글 내용
+            val contentExplainTextView = viewHolder.item_detail_explain_textview
+            // 좋아요 갯수
+            val contentFavoriteCntTextView = viewHolder.item_detail_favorite_count_textview
+            // 좋아요 버튼
+            val contentFavoriteImageView = viewHolder.item_detail_favorite_imageview
+            // 댓글 버튼
+            val contentCommentImageView = viewHolder.item_detail_comment_imageview
+
             // 유저 ID
-            viewHolder.item_detail_profile_textview.text = contentDTOs[position].userId
+            contentProfileTextView.text = contentDTOs[position].userId
 
             // 유저 프로필 이미지
             firestore?.collection("profileImages")?.document(contentDTOs[position].uid!!)
@@ -115,36 +129,36 @@ class DetailViewFragment : Fragment() {
 
                         // 찾아올 유저 프로필 이미지가 null일 경우 기본 프로필 이미지 세팅
                         if (url == null) {
-                            viewHolder.item_detail_profile_imageview.setImageResource(R.drawable.ic_account)
+                            profileImageView.setImageResource(R.drawable.ic_account)
                         } else {
                             Glide.with(holder.itemView.context)
                                 .load(url)
-                                .apply(RequestOptions().circleCrop()).into(viewHolder.item_detail_profile_imageview)
+                                .apply(RequestOptions().circleCrop()).into(profileImageView)
                         }
                     }
                 }
 
             // 콘텐트 이미지
-            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(viewHolder.item_detail_content_imageview)
+            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).into(contentImageView)
 
-            // 설명 텍스트
-            viewHolder.item_detail_explain_textview.text = contentDTOs[position].explain
+            // 게시글 내용
+            contentExplainTextView.text = contentDTOs[position].explain
 
             //좋아요 갯수 설정
-            viewHolder.item_detail_favorite_count_textview.text = getString(R.string.favorite_ea, contentDTOs[position].favoriteCount)
+            contentFavoriteCntTextView.text = getString(R.string.favorite_ea, contentDTOs[position].favoriteCount)
 
             // 좋아요 버튼 클릭 이벤트
-            viewHolder.item_detail_favorite_imageview.setOnClickListener { favoriteEvent(position) }
+            contentFavoriteImageView.setOnClickListener { favoriteEvent(position) }
 
             // 좋아요 버튼 이미지 클릭시 change 설정
             if (contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)) {
-                viewHolder.item_detail_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+                contentFavoriteImageView.setImageResource(R.drawable.ic_favorite)
             } else {
-                viewHolder.item_detail_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+                contentFavoriteImageView.setImageResource(R.drawable.ic_favorite_border)
             }
 
             // 프로필 이미지 클릭시 상대방 유저 정보 페이지로 이동
-            viewHolder.item_detail_profile_imageview.setOnClickListener {
+            profileImageView.setOnClickListener {
                 val fragment = UserFragment()
                 val bundle = Bundle()
 
@@ -156,7 +170,7 @@ class DetailViewFragment : Fragment() {
             }
 
             // 댓글 버튼 클릭시 댓글 화면 이동
-            viewHolder.item_detail_comment_imageview.setOnClickListener { v ->
+            contentCommentImageView.setOnClickListener { v ->
                 val intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
                 intent.putExtra("destinationUid", contentDTOs[position].uid)

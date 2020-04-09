@@ -299,7 +299,6 @@ class UserFragment : Fragment() {
                 .into(imageView)
         }
 
-        // 이미지 레이아웃 리턴 받은 뷰 홀더
         inner class CustomViewHolder(var imageView: ImageView) : RecyclerView.ViewHolder(imageView)
     }
 }

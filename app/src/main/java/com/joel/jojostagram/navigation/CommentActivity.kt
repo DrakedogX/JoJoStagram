@@ -1,11 +1,10 @@
 package com.joel.jojostagram.navigation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,7 +18,6 @@ import com.joel.jojostagram.navigation.model.ContentDTO
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_comment.view.*
-import kotlinx.android.synthetic.main.item_comment.view.comment_item_comment_textview
 
 class CommentActivity : AppCompatActivity() {
 
@@ -112,10 +110,17 @@ class CommentActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             val viewHolder = holder.itemView
 
-            // 댓글 텍스트
-            viewHolder.comment_item_comment_textview.text = comments[position].comment
-            // 유저 ID
-            viewHolder.comment_item_profile_textview.text = comments[position].userId
+            // 홀더 프로필 이미지
+            val profileImage = viewHolder.comment_item_profile_imageview
+            // 홀더 댓글 텍스트
+            val commentTextView = viewHolder.comment_item_comment_textview
+            // 홀더 유저 ID
+            val commentProfileTextView = viewHolder.comment_item_profile_textview
+
+            // 댓글 텍스트 세팅
+            commentTextView.text = comments[position].comment
+            // 유저 ID 세팅
+            commentProfileTextView.text = comments[position].userId
 
             // 유저 프로필 이미지
             FirebaseFirestore.getInstance()
@@ -128,11 +133,11 @@ class CommentActivity : AppCompatActivity() {
 
                         // 찾아올 유저 프로필 이미지가 null일 경우 기본 프로필 이미지 세팅
                         if (url == null) {
-                            viewHolder.comment_item_profile_imageview.setImageResource(R.drawable.ic_account)
+                            profileImage.setImageResource(R.drawable.ic_account)
                         } else {
                             Glide.with(holder.itemView.context)
                                 .load(url)
-                                .apply(RequestOptions().circleCrop()).into(viewHolder.comment_item_profile_imageview)
+                                .apply(RequestOptions().circleCrop()).into(profileImage)
                         }
                     }
                 }

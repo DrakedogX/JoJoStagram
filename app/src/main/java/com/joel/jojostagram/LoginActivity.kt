@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.multidex.MultiDex
-import com.joel.jojostagram.R
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -118,7 +117,7 @@ class LoginActivity : AppCompatActivity()  {
             }
     }
 
-    // 액티비티 리절트 결과 값 수신
+    // 액티비티 결과 값 수신
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // 페이스북에서 승인된 정보를 가지고 옴
@@ -127,9 +126,17 @@ class LoginActivity : AppCompatActivity()  {
         // 구글 로그인에서 승인된 정보를 가지고 오며 성공시 파이어베이스로 전달
         if (requestCode == GOOGLE_LOGIN_CODE){
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result.isSuccess){
-                val account = result.signInAccount
-                firebaseAuthWithGoogle(account!!)
+            if (result != null) {
+                if (result.isSuccess){
+                    val account = result.signInAccount
+                    firebaseAuthWithGoogle(account!!)
+                } else {
+                    // 구글 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                    Toast.makeText(this, resultCode, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // 구글 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                Toast.makeText(this, resultCode, Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -14,16 +14,19 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.AlarmDTO
 import com.joel.jojostagram.navigation.model.ContentDTO
 import kotlinx.android.synthetic.main.activity_comment.*
+import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlinx.android.synthetic.main.item_comment.view.comment_item_comment_textview
 
 class CommentActivity : AppCompatActivity() {
 
     // Firebase 및 계정 관련 전역 변수
     private var contentUid: String? = null
-    private var user: FirebaseUser? = null
     private var destinationUid: String? = null
+    private var user: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +52,23 @@ class CommentActivity : AppCompatActivity() {
             comment.timestamp = System.currentTimeMillis()
 
             FirebaseFirestore.getInstance().collection("images").document(contentUid!!).collection("comments").document().set(comment)
-
+            commentAlarm(destinationUid!!, comment_item_comment_textview.text.toString())
             comment_message_btn.setText("")
         }
+    }
+
+    // 댓글 알람 이벤트 (전달받은  UID, 댓글 내용)
+    private fun commentAlarm(destinationUid: String, message: String) {
+        // 알람 데이터 클래스 세팅
+        val alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = user?.email
+        alarmDTO.uid = user?.uid
+        alarmDTO.kind = 1 // 알람종류: 댓글
+        alarmDTO.message = message // 댓글 내용
+        alarmDTO.timestamp = System.currentTimeMillis()
+
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     // 리사이클러뷰 어댑터

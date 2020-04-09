@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.joel.jojostagram.navigation.model.AlarmDTO
 import com.squareup.okhttp.OkHttpClient
 import kotlinx.android.synthetic.main.fragment_detail.view.detail_fragment_recyclerview
 import kotlinx.android.synthetic.main.item_detail.view.*
@@ -158,6 +159,7 @@ class DetailViewFragment : Fragment() {
             viewHolder.item_detail_comment_imageview.setOnClickListener { v ->
                 val intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
+                intent.putExtra("destinationUid", contentDTOs[position].uid)
                 startActivity(intent)
             }
         }
@@ -180,10 +182,25 @@ class DetailViewFragment : Fragment() {
                     // 좋아요 비 활성화 일때, 좋아요 활성화
                     contentDTO.favoriteCount = contentDTO.favoriteCount + 1 // 좋아요 추가
                     contentDTO.favorites[user!!.uid] = true // uid true
+                    favoriteAlarm(contentDTOs[position].uid!!) // 좋아요가 설정 되었기 때문에 알람 uid 세팅
                 }
                 // transaction set 값 리턴
                 transaction.set(tsDoc, contentDTO)
             }
+        }
+
+        // 좋아요 알람 이벤트 (전달받은 UID)
+        private fun favoriteAlarm(destinationUid: String) {
+            // 알람 데이터 클래스 세팅
+            val alarmDTO = AlarmDTO()
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = user?.email
+            alarmDTO.uid = user?.uid
+            alarmDTO.kind = 0 // 알람종류: 좋아요
+            alarmDTO.timestamp = System.currentTimeMillis()
+
+            // FirebaseFirestore 알람 세팅
+            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
         }
     }
 }

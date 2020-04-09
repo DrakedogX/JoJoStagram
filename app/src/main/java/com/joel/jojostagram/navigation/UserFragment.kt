@@ -23,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.LoginActivity
 import com.joel.jojostagram.MainActivity
 import com.joel.jojostagram.R
+import com.joel.jojostagram.navigation.model.AlarmDTO
 import com.joel.jojostagram.navigation.model.ContentDTO
 import com.joel.jojostagram.navigation.model.FollowDTO
 import kotlinx.android.synthetic.main.activity_main.*
@@ -159,7 +160,7 @@ class UserFragment : Fragment() {
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true // 상대방의 계정에 나의 uid 세팅
-
+                followerAlarm(uid!!) // 최초 팔로우 알람 세팅
                 transaction.set(tsDocFollower, followDTO!!)
                 return@runTransaction
             }
@@ -173,6 +174,7 @@ class UserFragment : Fragment() {
                 // 상대방의 계정을 팔로우 중이 아닌 경우
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
             }
 
             transaction.set(tsDocFollower, followDTO!!)
@@ -228,6 +230,20 @@ class UserFragment : Fragment() {
         } else {
             drawable?.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         }
+    }
+
+    // 팔로우 알람 이벤트 (전달받은 UID)
+    private fun followerAlarm(destinationUid: String) {
+        // 알람 데이터 클래스 세팅
+        val alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2 // 알람종류: 팔로우
+        alarmDTO.timestamp = System.currentTimeMillis()
+
+        // FirebaseFirestore 알람 세팅
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     // 유저 리사이클러뷰 어댑터

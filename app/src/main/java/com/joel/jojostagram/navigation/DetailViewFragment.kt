@@ -15,8 +15,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.joel.jojostagram.R
-import com.joel.jojostagram.navigation.model.AlarmDTO
-import com.joel.jojostagram.navigation.model.ContentDTO
+import com.joel.jojostagram.model.AlarmDTO
+import com.joel.jojostagram.model.ContentDTO
 import com.squareup.okhttp.OkHttpClient
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*

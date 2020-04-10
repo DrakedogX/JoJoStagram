@@ -1,4 +1,4 @@
-package com.joel.jojostagram.navigation.model
+package com.joel.jojostagram.model
 
 /* 데이터 관리 클래스
 explain: 컨텐츠 설명

@@ -1,4 +1,4 @@
-package com.joel.jojostagram.navigation.model
+package com.joel.jojostagram.model
 
 data class FollowDTO(
 

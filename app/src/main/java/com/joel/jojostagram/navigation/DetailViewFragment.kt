@@ -17,6 +17,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.joel.jojostagram.R
 import com.joel.jojostagram.model.AlarmDTO
 import com.joel.jojostagram.model.ContentDTO
+import com.joel.jojostagram.util.FcmPush
 import com.squareup.okhttp.OkHttpClient
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
@@ -215,6 +216,10 @@ class DetailViewFragment : Fragment() {
 
             // FirebaseFirestore 알람 세팅
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+            // FCM 푸시
+            val message = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_favorite)
+            FcmPush.FcmPushInstance.sendMessage(destinationUid, "JoJoStagram", message)
         }
     }
 }

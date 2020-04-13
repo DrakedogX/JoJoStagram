@@ -26,6 +26,7 @@ import com.joel.jojostagram.R
 import com.joel.jojostagram.model.AlarmDTO
 import com.joel.jojostagram.model.ContentDTO
 import com.joel.jojostagram.model.FollowDTO
+import com.joel.jojostagram.util.FcmPush
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
@@ -244,6 +245,10 @@ class UserFragment : Fragment() {
 
         // FirebaseFirestore 알람 세팅
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+        // FCM 푸시
+        val message = auth?.currentUser?.email + " " +getString(R.string.alarm_follow)
+        FcmPush.FcmPushInstance.sendMessage(destinationUid, "JoJoStagram", message)
     }
 
     // 유저 리사이클러뷰 어댑터

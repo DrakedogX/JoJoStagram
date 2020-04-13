@@ -11,7 +11,7 @@
 
 Mac OS 10.15.3
 
-Android Studio 3.6.1
+Android Studio 3.6.1 -> 3.6.2
 
 Java 1.8.0_231
 

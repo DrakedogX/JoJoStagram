@@ -8,7 +8,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-class FcmPush() {
+class FcmPush {
     // JSON 세팅
     private val json = "application/json; charset=utf-8".toMediaType()
     // FCM Legacy HTTP URL

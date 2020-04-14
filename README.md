@@ -3,7 +3,7 @@
 <br>개발은 http://www.yes24.com/24/goods/62495788 해당를 도서 보고 참조했습니다.
 <br>좋은 내용으로 책을 출간해주신 하울님께 감사드립니다.
 
-가장 기본적인 형태로 코딩을 하여 기능만 먼저 완성 후 추후에 DataBinding, ViewBinding 등등 추가하여 완성도를 높일 예정입니다.
+추후 여가시간을 활용하여 틈틈히 완성도를 높일 예정입니다.
 
 <img src="/header.png" width="310">
 
@@ -17,14 +17,14 @@ Java 1.8.0_231
 
 ## 개발 Base
 
-Android
+Android 10
 
 Kotlin
 
 Firebase
 
 
-**Android Info**
+## Android Info
 
 compileSdkVersion 28 -> 29
 

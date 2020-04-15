@@ -14,11 +14,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.joel.jojostagram.MainActivity
 import com.joel.jojostagram.R
 import com.joel.jojostagram.model.AlarmDTO
 import com.joel.jojostagram.model.ContentDTO
+import com.joel.jojostagram.model.FollowDTO
 import com.joel.jojostagram.util.FcmPush
-import com.squareup.okhttp.OkHttpClient
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
@@ -26,33 +28,45 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 class DetailViewFragment : Fragment() {
 
     // Firebase 유저 공통 전역 변수
-    var user: FirebaseUser? = null
+    private var user: FirebaseUser? = null
 
     // Firestore 저장소 전역 변수
-    var firestore: FirebaseFirestore? = null
+    private var firestore: FirebaseFirestore? = null
 
     // Firestore 리스너 등록 전역 변수
-    var imagesSnapshot: ListenerRegistration? = null
-
-    // OkHttpClient 전역 변수
-    var okHttpClient: OkHttpClient? = null
+    private var imagesSnapshot: ListenerRegistration? = null
 
     // 뷰 참조 전역 변수
-    var mainView: View? = null
+    private var mainView: View? = null
+
+    // FCM 전역 변수
+    private var fcmPush: FcmPush? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
+        val mainView = inflater.inflate(R.layout.fragment_detail, container, false)
 
         // 유저 정보
         user = FirebaseAuth.getInstance().currentUser
         // FirebaseFirestore 정보
         firestore = FirebaseFirestore.getInstance()
+        fcmPush = FcmPush()
 
+        return mainView
+    }
+
+    override fun onResume() {
+        super.onResume()
         // 리사이클러 뷰 어댑터 연결
-        view.detail_fragment_recyclerview.adapter = DetailRecyclerViewAdapter()
-        view.detail_fragment_recyclerview.layoutManager = LinearLayoutManager(activity)
+        mainView?.detail_fragment_recyclerview?.adapter = DetailRecyclerViewAdapter()
+        mainView?.detail_fragment_recyclerview?.layoutManager = LinearLayoutManager(activity)
 
-        return view
+        val mainActivity = activity as MainActivity
+        mainActivity.main_progress_bar.visibility = View.INVISIBLE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        imagesSnapshot?.remove()
     }
 
     // 리사이클러뷰 어댑터
@@ -66,22 +80,35 @@ class DetailViewFragment : Fragment() {
             // Firestore 접근하여 DB 정보 받아옴, 시간순으로
             // 쿼리스냅샷 데이터 하나씩 반복문으로 item에 set
             // contentDTOs에 item Add, contentUidList에 snapshot.id Add
-            firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
-                // contentDTOs, contentUidList 초기화 -> 값 중복 방지
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            firestore?.collection("users")?.document(uid!!)?.get()?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val userDTO = task.result?.toObject(FollowDTO::class.java)
+                    if (userDTO?.followings != null) {
+                        getCotents(userDTO.followings)
+                    }
+                }
+            }
+        }
+
+        private fun getCotents(followers: MutableMap<String, Boolean>?) {
+            imagesSnapshot = firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 contentDTOs.clear()
                 contentUidList.clear()
 
-                // 쿼리스냅샷 널 처리
                 if (querySnapshot == null) return@addSnapshotListener
 
-                for(snapshot in querySnapshot.documents){
-                    val item = snapshot.toObject(ContentDTO::class.java)
+                for (snapshot in querySnapshot.documents) {
+                    val item = snapshot.toObject(ContentDTO::class.java)!!
 
-                    contentDTOs.add(item!!)
-                    contentUidList.add(snapshot.id)
+                    if (followers?.keys?.contains(item.uid)!!) {
+                        contentDTOs.add(item)
+                        contentUidList.add(snapshot.id)
+                    }
                 }
-                notifyDataSetChanged() // Adapter에게 DataSet이 변경되었으니 갱신하라고 알림
+                notifyDataSetChanged() // DataSet 변경 알림
             }
+
         }
 
         // DetailRecyclerViewAdapter 클래스 상속시 구현해야할 함수 3가지 : onCreateViewHolder, onBindViewHolder, getItemCount
@@ -219,7 +246,7 @@ class DetailViewFragment : Fragment() {
 
             // FCM 푸시
             val message = FirebaseAuth.getInstance().currentUser?.email + " " + getString(R.string.alarm_favorite)
-            FcmPush.FcmPushInstance.sendMessage(destinationUid, "JoJoStagram", message)
+            fcmPush?.sendMessage(destinationUid, "JoJoStagram", message)
         }
     }
 }

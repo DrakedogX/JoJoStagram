@@ -3,15 +3,16 @@ package com.joel.jojostagram.navigation
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.widget.Toast
-import com.joel.jojostagram.R
-import com.joel.jojostagram.model.ContentDTO
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.joel.jojostagram.R
+import com.joel.jojostagram.model.ContentDTO
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,7 +77,7 @@ class AddPhotoActivity : AppCompatActivity() {
 
     // 이미지 파일 업로드
     private fun contentUpload(){
-        //progress_bar.visibility = View.VISIBLE
+        add_photo_progress_bar.visibility = View.VISIBLE
 
         // 파일 이름 생성
         val currentDateTime = Calendar.getInstance().time
@@ -90,7 +91,7 @@ class AddPhotoActivity : AppCompatActivity() {
         storageRef?.putFile(photoUri!!)?.continueWithTask {
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
-            //progress_bar.visibility = View.GONE
+            add_photo_progress_bar.visibility = View.GONE
 
             // 업로드 성공 토스트
             Toast.makeText(this, getString(R.string.upload_success), Toast.LENGTH_SHORT).show()
@@ -117,6 +118,9 @@ class AddPhotoActivity : AppCompatActivity() {
 
             //엑티비티 종료
             finish()
+        }?.addOnFailureListener {
+            add_photo_progress_bar.visibility = View.GONE
+            Toast.makeText(this, getString(R.string.upload_fail), Toast.LENGTH_SHORT).show()
         }
 
         // 이미지 Firebase 업로드 callback 메서드 (구글 권장 X)

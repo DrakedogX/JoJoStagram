@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     tools:context="com.joel.jojostagram.navigation.AddPhotoActivity">
 
+    <!-- 게시글 업로드 프로그레스 바  -->
+    <ProgressBar
+        android:id="@+id/add_photo_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
     <!-- 툴바 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/add_photo_toolbar"

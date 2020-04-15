@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 메인 프로그레스 바 표시
+        main_progress_bar.visibility = View.VISIBLE
+
         // 하단 네비게이션 셀렉트 세팅
         bottom_navigation.setOnNavigationItemSelectedListener(this)
 

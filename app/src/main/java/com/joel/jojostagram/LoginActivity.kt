@@ -3,6 +3,7 @@ package com.joel.jojostagram
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.multidex.MultiDex
@@ -76,47 +77,6 @@ class LoginActivity : AppCompatActivity()  {
         MultiDex.install(this)
     }
 
-    // 구글 로그인 액티비티 인텐트
-    private fun googleLogin (){
-        val signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
-    }
-
-    // 페이스북 로그인
-    private fun facebookLogin(){
-        //progress_bar.visibility = View.GONE
-        LoginManager.getInstance().logInWithReadPermissions(this, listOf("public_profile", "email"))
-        LoginManager.getInstance().registerCallback(facebookCallbackManager, object: FacebookCallback<LoginResult>{
-            override fun onSuccess(loginResult: LoginResult) {
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                //progress_bar.visibility = View.GONE
-            }
-
-            override fun onError(error: FacebookException?) {
-                //progress_bar.visibility = View.GONE
-            }
-
-        })
-    }
-    // Facebook 인증 토큰을 Firebase로 넘겨주는 function
-    fun handleFacebookAccessToken(token : AccessToken){
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener { task ->
-                //progress_bar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    // 페이스 로그인 성공 및 메인 액티비티 호출
-                    moveMainPage(auth?.currentUser)
-                } else {
-                    // 페이스북 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
     // 액티비티 결과 값 수신
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -132,13 +92,101 @@ class LoginActivity : AppCompatActivity()  {
                     firebaseAuthWithGoogle(account!!)
                 } else {
                     // 구글 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                    login_progress_bar.visibility = View.GONE
                     Toast.makeText(this, resultCode, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 // 구글 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                login_progress_bar.visibility = View.GONE
                 Toast.makeText(this, resultCode, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // 이메일 로그인 function
+    private fun signInEmail(){
+        login_progress_bar.visibility = View.VISIBLE
+        auth?.signInWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
+            ?.addOnCompleteListener { task ->
+                login_progress_bar.visibility = View.GONE
+                if (task.isSuccessful) {
+                    // 이메일 로그인 성공 및 다음페이지 호출
+                    moveMainPage(auth?.currentUser)
+                } else {
+                    // 이메일 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    // 구글 로그인 액티비티 인텐트
+    private fun googleLogin (){
+        login_progress_bar.visibility = View.VISIBLE
+        val signInIntent = googleSignInClient?.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+    }
+
+    // 페이스북 로그인
+    private fun facebookLogin(){
+        login_progress_bar.visibility = View.VISIBLE
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("public_profile", "email"))
+        LoginManager.getInstance().registerCallback(facebookCallbackManager, object: FacebookCallback<LoginResult>{
+            override fun onSuccess(loginResult: LoginResult) {
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+                login_progress_bar.visibility = View.GONE
+            }
+
+            override fun onError(error: FacebookException?) {
+                login_progress_bar.visibility = View.GONE
+            }
+
+        })
+    }
+
+    // 이메일 회원가입 및 로그인 function (Firebase)
+    private fun createAndLoginEmail(){
+        if (email_edittext.text.toString().isEmpty() || password_edittext.text.toString().isEmpty()) {
+            Toast.makeText(this, getString(R.string.signout_fail_null), Toast.LENGTH_SHORT).show()
+        } else {
+            login_progress_bar.visibility = View.VISIBLE
+            auth?.createUserWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
+                ?.addOnCompleteListener { task ->
+                    login_progress_bar.visibility = View.GONE
+                    when {
+                        task.isSuccessful -> {
+                            // 계정 생성이 성공 했을 경우 메인 액티비티 호출
+                            moveMainPage(auth?.currentUser)
+                        }
+                        task.exception?.message.isNullOrEmpty() -> {
+                            // 계정 생성이 실패 했을 경우
+                            Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            // 계정 생성도 및 에러도 발생되지 않았을 경우 이메일 로그인
+                            signInEmail()
+                        }
+                    }
+                }
+        }
+    }
+
+    // Facebook 인증 토큰을 Firebase로 넘겨주는 메서드
+    fun handleFacebookAccessToken(token : AccessToken){
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth?.signInWithCredential(credential)
+            ?.addOnCompleteListener { task ->
+                login_progress_bar.visibility = View.GONE
+                if (task.isSuccessful) {
+                    // 페이스 로그인 성공 및 메인 액티비티 호출
+                    moveMainPage(auth?.currentUser)
+                } else {
+                    // 페이스북 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
+                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     // 구글 인증 정보 파이어베이스로 전달
@@ -146,49 +194,12 @@ class LoginActivity : AppCompatActivity()  {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
-                //progress_bar.visibility = View.GONE
+                login_progress_bar.visibility = View.GONE
                 if (task.isSuccessful) {
                     // 구글 로그인 성공 및 메인 액티비티 호출
                     moveMainPage(auth?.currentUser)
                 } else {
                     // 구글 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    // 이메일 회원가입 및 로그인 function (Firebase)
-    private fun createAndLoginEmail(){
-        auth?.createUserWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
-            ?.addOnCompleteListener {
-            task ->
-                when {
-                    task.isSuccessful -> {
-                        // 계정 생성이 성공 했을 경우 메인 액티비티 호출
-                        moveMainPage(auth?.currentUser)
-                    }
-                    task.exception?.message.isNullOrEmpty() -> {
-                        // 계정 생성이 실패 했을 경우
-                        Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        // 계정 생성도 및 에러도 발생되지 않았을 경우 이메일 로그인
-                        signInEmail()
-                    }
-                }
-        }
-    }
-
-    // 이메일 로그인 function
-    private fun signInEmail(){
-        auth?.signInWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
-            ?.addOnCompleteListener { task ->
-                //progress_bar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    // 이메일 로그인 성공 및 다음페이지 호출
-                    moveMainPage(auth?.currentUser)
-                } else {
-                    // 이메일 로그인 실패 (계정 정보가 맞지 않거나 없는 계정일때) - 토스트 출력
                     Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
                 }
             }

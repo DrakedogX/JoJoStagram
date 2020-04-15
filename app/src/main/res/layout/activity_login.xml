@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context="com.joel.jojostagram.LoginActivity">
 
+    <!-- 메인 이미지 레이아웃 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/signin_layout">
+
     <!-- 메인 로고 이미지 -->
     <ImageView
         android:layout_above="@+id/signin_layout"
@@ -13,6 +19,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/logo_title"
         android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+    <!-- 로그인 프로그레스 바 -->
+    <ProgressBar
+        android:id="@+id/login_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <!-- 메인 리니어 레이아웃 -->
     <LinearLayout

@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
-    fun registerPushToken(){
+    private fun registerPushToken(){
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {task ->
             val pushToken = task.result?.token
             val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     // 툴바 상태 변경 메서드
-    fun setToolbarDefalt() {
+    private fun setToolbarDefalt() {
          main_toolbar_username.visibility = View.GONE
         main_toolbar_back_btn.visibility = View.GONE
         main_toolbar_title_img.visibility = View.GONE

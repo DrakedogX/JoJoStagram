@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     // 하단 네비게이션 아이콘 선택에 따른 프래그먼트 호출
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        setToolbarDefalt()
+        setToolbarDefault()
         when (p0.itemId){
             // 메인 화면
             R.id.action_home ->{
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     // 툴바 상태 변경 메서드
-    private fun setToolbarDefalt() {
+    private fun setToolbarDefault() {
          main_toolbar_username.visibility = View.GONE
         main_toolbar_back_btn.visibility = View.GONE
         main_toolbar_title_img.visibility = View.GONE

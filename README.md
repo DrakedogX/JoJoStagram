@@ -9,7 +9,7 @@
 
 ## 개발 환경 설정
 
-Mac OS 10.15.3
+Mac OS(카탈리나)
 
 Android Studio 3.6.1 -> 3.6.2
 

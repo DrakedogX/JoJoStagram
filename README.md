@@ -6,8 +6,11 @@
 추후 여가시간을 활용하여 틈틈히 완성도를 높일 예정입니다.
 
 **-> 추가예정**
+<br>
 Databinding
+
 LiveData
+
 안드로이드 아키텍처 패턴 
 
 <img src="/header.png" width="310">

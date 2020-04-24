@@ -45,6 +45,8 @@ targetSdkVersion 28 -> 29
 
 ## 정보
 
+본 소스에는 Firebase google-services.json이 포함되어 있지 않습니다.
+
 이동준 (Joel Lee) - dyc2000@naver.com
 
 https://velog.io/@jojo_devstory

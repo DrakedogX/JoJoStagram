@@ -33,20 +33,28 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppcompat"
     implementation "androidx.core:core-ktx:$androidxKTX"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayout"
+    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerview"
+    implementation "androidx.multidex:multidex:$androidxMultidex"
+
+    testImplementation "junit:junit:$junit"
+    androidTestImplementation "androidx.test.ext:junit:$androidxJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
+
+    implementation "com.google.android.material:material:$androidMaterial"
+
     implementation "com.google.firebase:firebase-auth:$firebaseAuth"
     implementation "com.google.firebase:firebase-storage:$firebaseStorage"
     implementation "com.google.firebase:firebase-firestore:$firebaseFirestore"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessaging"
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
-    implementation "com.google.android.material:material:$androidMaterial"
+
+
     implementation "com.google.android.gms:play-services-auth:$playServicesAuth"
+
     implementation "com.facebook.android:facebook-android-sdk:$facebookAndroidSdk"
-    implementation "androidx.multidex:multidex:$androidxMultidex"
+
     implementation "com.github.bumptech.glide:glide:$glide"
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerview"
+
     implementation "com.squareup.okhttp3:okhttp:$okhttp3"
     implementation "com.google.code.gson:gson:$gson"
-    testImplementation "junit:junit:$junit"
-    androidTestImplementation "androidx.test.ext:junit:$androidxJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
 }

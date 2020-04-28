@@ -23,6 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    dataBinding {
+        enabled true
+    }
 
 }
 
@@ -46,7 +57,6 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore:$firebaseFirestore"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessaging"
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
-
 
     implementation "com.google.android.gms:play-services-auth:$playServicesAuth"
 

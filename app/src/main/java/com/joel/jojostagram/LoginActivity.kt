@@ -78,6 +78,7 @@ class LoginActivity : AppCompatActivity()  {
     }
 
     // 액티비티 결과 값 수신
+    // onActivityResult Deprecated 예정 - ActivityResult로 대체
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // 페이스북에서 승인된 정보를 가지고 옴
@@ -123,6 +124,7 @@ class LoginActivity : AppCompatActivity()  {
     private fun googleLogin (){
         login_progress_bar.visibility = View.VISIBLE
         val signInIntent = googleSignInClient?.signInIntent
+        // startActivityForResult Deprecated 예정 - registerForActivityResult()로 대체
         startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
     }
 

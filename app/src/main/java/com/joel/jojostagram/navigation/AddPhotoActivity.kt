@@ -48,6 +48,7 @@ class AddPhotoActivity : AppCompatActivity() {
         // 화면 실행시 디바이스 앨범 오픈
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
+        // startActivityForResult Deprecated 예정 - registerForActivityResult()로 대체
         startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
 
         // 게시글 내용 텍스트 필드 인풋타입 세팅

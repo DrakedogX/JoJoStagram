@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         registerPushToken()
     }
 
+    // onActivityResult Deprecated 예정 - ActivityResult로 대체
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

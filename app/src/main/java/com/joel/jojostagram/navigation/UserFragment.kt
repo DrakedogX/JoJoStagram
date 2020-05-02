@@ -105,6 +105,7 @@ class UserFragment : Fragment() {
         fragmentView?.account_iv_profile?.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
+            // startActivityForResult Deprecated 예정 - registerForActivityResult()로 대체
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
         }
 

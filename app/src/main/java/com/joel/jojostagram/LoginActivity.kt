@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 
 // 로그인 화면
+// 최초 메인 액티비티 추가하여 변경 예정
 class LoginActivity : AppCompatActivity()  {
 
     // GoogleLogin startActivityForResult 상수 값

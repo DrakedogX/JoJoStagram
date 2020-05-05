@@ -2,7 +2,7 @@
     <string name="app_name">JoJoStagram</string>
     <string name="facebook_app_id">600399250513077</string>
     <string name="fb_login_protocol_scheme">fb600399250513077</string>
-
+    <string name="default_web_client_id">780957094401-698p2tp5dl7ik79lr7g9oc7q8a91m8ki.apps.googleusercontent.com</string>
 
     <!-- Sign In -->
     <string name="email">Email</string>

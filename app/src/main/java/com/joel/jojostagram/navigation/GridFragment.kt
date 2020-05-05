@@ -45,6 +45,7 @@ class GridFragment : Fragment() {
             contentDTOs = ArrayList()
 
             // 로그인한 유저의 이미지만 Select
+            // 비동기 처리 추가 예정
             fireStore?.collection("images")
                 ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     contentDTOs.clear()

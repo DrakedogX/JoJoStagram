@@ -19,7 +19,7 @@ import com.joel.jojostagram.R
 import com.joel.jojostagram.model.AlarmDTO
 import com.joel.jojostagram.model.ContentDTO
 import com.joel.jojostagram.model.FollowDTO
-import com.joel.jojostagram.util.FcmPush
+import com.joel.jojostagram.api.FcmPush
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*

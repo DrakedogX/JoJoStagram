@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.R
 import com.joel.jojostagram.model.AlarmDTO
 import com.joel.jojostagram.model.ContentDTO
-import com.joel.jojostagram.util.FcmPush
+import com.joel.jojostagram.api.FcmPush
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.item_comment.*
 import kotlinx.android.synthetic.main.item_comment.view.*

@@ -1,4 +1,4 @@
-package com.joel.jojostagram.util
+package com.joel.jojostagram.api
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson

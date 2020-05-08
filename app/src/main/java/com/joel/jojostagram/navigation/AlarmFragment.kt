@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.R
-import com.joel.jojostagram.model.AlarmDTO
+import com.joel.jojostagram.data.AlarmDTO
 import kotlinx.android.synthetic.main.fragment_alarm.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 

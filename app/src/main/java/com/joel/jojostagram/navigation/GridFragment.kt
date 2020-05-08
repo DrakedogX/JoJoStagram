@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.R
-import com.joel.jojostagram.model.ContentDTO
+import com.joel.jojostagram.data.ContentDTO
 import kotlinx.android.synthetic.main.fragment_grid.view.*
 
 // 그리드 이미지뷰 화면

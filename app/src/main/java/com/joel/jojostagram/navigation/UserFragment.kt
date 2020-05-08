@@ -23,9 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.joel.jojostagram.LoginActivity
 import com.joel.jojostagram.MainActivity
 import com.joel.jojostagram.R
-import com.joel.jojostagram.model.AlarmDTO
-import com.joel.jojostagram.model.ContentDTO
-import com.joel.jojostagram.model.FollowDTO
+import com.joel.jojostagram.data.AlarmDTO
+import com.joel.jojostagram.data.ContentDTO
+import com.joel.jojostagram.data.FollowDTO
 import com.joel.jojostagram.api.FcmPush
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*

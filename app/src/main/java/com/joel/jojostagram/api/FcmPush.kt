@@ -2,7 +2,7 @@ package com.joel.jojostagram.api
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
-import com.joel.jojostagram.model.PushDTO
+import com.joel.jojostagram.data.PushDTO
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody

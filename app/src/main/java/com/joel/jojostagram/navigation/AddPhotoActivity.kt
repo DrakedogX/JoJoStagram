@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.joel.jojostagram.R
-import com.joel.jojostagram.model.ContentDTO
+import com.joel.jojostagram.data.ContentDTO
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*

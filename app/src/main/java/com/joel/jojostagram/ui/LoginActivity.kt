@@ -1,4 +1,4 @@
-package com.joel.jojostagram
+package com.joel.jojostagram.ui
 
 import android.content.Context
 import android.content.Intent
@@ -22,6 +22,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.joel.jojostagram.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 // 로그인 화면
@@ -126,7 +127,9 @@ class LoginActivity : AppCompatActivity()  {
         login_progress_bar.visibility = View.VISIBLE
         val signInIntent = googleSignInClient?.signInIntent
         // startActivityForResult Deprecated 예정 - registerForActivityResult()로 대체
-        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+        startActivityForResult(signInIntent,
+            GOOGLE_LOGIN_CODE
+        )
     }
 
     // 페이스북 로그인

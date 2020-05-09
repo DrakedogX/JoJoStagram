@@ -20,8 +20,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.joel.jojostagram.LoginActivity
-import com.joel.jojostagram.MainActivity
+import com.joel.jojostagram.ui.LoginActivity
+import com.joel.jojostagram.ui.MainActivity
 import com.joel.jojostagram.R
 import com.joel.jojostagram.data.AlarmDTO
 import com.joel.jojostagram.data.ContentDTO

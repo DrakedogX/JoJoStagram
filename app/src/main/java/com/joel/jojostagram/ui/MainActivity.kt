@@ -1,4 +1,4 @@
-package com.joel.jojostagram
+package com.joel.jojostagram.ui
 
 import android.Manifest
 import android.app.Activity
@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.joel.jojostagram.R
 import com.joel.jojostagram.navigation.*
 import kotlinx.android.synthetic.main.activity_main.*
 
